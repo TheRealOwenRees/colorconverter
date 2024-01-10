@@ -1,44 +1,7 @@
-// Color convertor instance
-export interface ColorConvertorInstance {
-  _color: ColorType
-  _input: ColorInfo | undefined
-  _rgb: ColorInfo | undefined
-
-  isValid: () => boolean
-  getInput: () => ColorInfo
-  getFormat: () => string
-  getAlpha: () => number
-  getBrightness: () => number
-  getLuminance: () => number
-  setAlpha: (alpha: number) => void
-  toHsv: () => Record<string, unknown>
-  toHsvString: () => string
-  toHsl: () => Record<string, unknown>
-  toHslString: () => string
-  toHex: () => string
-  toHexString: () => string
-  toHexA: () => string
-  toHexAString: () => string
-  toRgb: (_input: ColorInfo) => Record<string, string>
-  toRgbString: () => string
-  getName: () => string
-  isDark: () => boolean
-  isLight: () => boolean
-  getNearestWebSafeColor: () => string
-  setNearestWebSafeColor: () => void
-}
-
-// Color convertor instance arguments
-export type ColorType = string | Record<string, unknown>
-
-// Colour info objects
-export interface ColorInfo {
+export interface ColorObjType {
   format: string | undefined
-  value: string | RgbObject | HslObject | HsvObject | undefined
+  value: RgbObject | HslObject | HsvObject | string | undefined
 }
-
-// Named colors
-export type NamedColors = Record<string, string>
 
 export interface RgbObject {
   r: number
@@ -46,16 +9,44 @@ export interface RgbObject {
   b: number
   a?: number
 }
-
-export interface HslObject {
-  h: number
-  s: number
-  l: number
-  a?: number
+//
+export interface HsvObject {
+  h: number | undefined
+  s: number | undefined
+  v: number | undefined
 }
 
-export interface HsvObject {
-  h: number
-  s: number
-  v: number
+export interface HslObject {
+  h: number | undefined
+  s: number | undefined
+  l: number | undefined
+  a?: number | undefined
+}
+
+export interface ColorConvertorInstance {
+  _colorInput: string
+  _colorObj: ColorObjType
+  _rgbObj: ColorObjType
+
+  getInput: () => ColorObjType
+  toRgb: (this: ColorConvertorInstance) => ColorObjType
+  toRgbString: () => string
+  toHsv: (this: ColorConvertorInstance) => HsvObject
+  toHsvString: () => string
+  toHsl: (this: ColorConvertorInstance) => HslObject
+  toHslString: () => string
+  toHex: () => string
+  toHexString: () => string
+  toHexA: () => string
+  toHexAString: () => string
+  getBrightness: () => number
+  getLuminance: () => number
+  isDark: () => boolean
+  isLight: () => boolean
+  getFormat: () => string | undefined
+  getAlpha: () => number | undefined
+  setAlpha: (newAlpha: number) => RgbObject
+  toNormalizedRgb: () => RgbObject
+  toNormalizedRgba: () => RgbObject
+  toName: (this: ColorConvertorInstance) => string | undefined
 }

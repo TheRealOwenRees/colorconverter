@@ -122,5 +122,21 @@ describe('color convertor instance', () => {
       // @ts-expect-error
       expect(new ColorConvertor('rgb(255, 255, 255)').setAlpha(0.5)).toMatchObject({ format: 'rgb', value: { r: 255, g: 255, b: 255, a: 0.5 } })
     })
+    it('to normalized rgb', () => {
+      // @ts-expect-error
+      expect(new ColorConvertor('rgb(255, 255, 255)').toNormalizedRgb()).toMatchObject({ r: 1, g: 1, b: 1 })
+    })
+    it('to normalized rgba', () => {
+      // @ts-expect-error
+      expect(new ColorConvertor('rgba(255, 255, 255, 1)').toNormalizedRgba()).toMatchObject({ r: 1, g: 1, b: 1, a: 1 })
+    })
+    it('get named color', () => {
+      // @ts-expect-error
+      expect(new ColorConvertor('rgb(255, 255, 255)').toName()).toBe('white')
+    })
+    it('get undefined named color', () => {
+      // @ts-expect-error
+      expect(new ColorConvertor('rgb(255, 255, 254)').toName()).toBe(undefined)
+    })
   })
 })

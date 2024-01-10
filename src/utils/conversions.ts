@@ -3,41 +3,41 @@
     https://gist.github.com/avisek/eadfbe7a7a169b1001a2d3affc21052e
 */
 
+import { type ColorObjType, type HslObject, type HsvObject, type RgbObject } from '../types'
 import { convertDecimalToHex } from './math'
-import { type ColorInfo, type HslObject, type HsvObject, type RgbObject } from '../types'
 
 // any color type to rgb
-export function toRgbBase (input: ColorInfo | undefined): ColorInfo | undefined {
-  if (input == null) {
-    return {
-      format: undefined,
-      value: undefined
-    }
+export function toRgbBase (colorObj: ColorObjType): ColorObjType {
+  if (colorObj.format === 'rgb' || colorObj.format === 'rgba') {
+    return colorObj
   }
-  if (input.format === 'rgb' || input.format === 'rgba') {
-    return input
-  }
-  if (input.format === 'hex') {
+  if (colorObj.format === 'hex' && typeof colorObj.value === 'string') {
     return {
       format: 'rgb',
-      value: hexToRgb(input.value as string)
+      value: hexToRgb(colorObj.value)
     }
   }
-  if (input.format === 'hsl') {
+  if (colorObj.format === 'hsl') {
     return {
       format: 'rgb',
-      value: hslToRgb(input.value as HslObject)
+      value: hslToRgb(colorObj.value as HslObject)
     }
   }
-  if (input.format === 'hsv') {
+  if (colorObj.format === 'hsv') {
     return {
       format: 'rgb',
-      value: hsvToRgb(input.value as HsvObject)
+      value: hsvToRgb(colorObj.value as HsvObject)
     }
+  }
+  return {
+    format: undefined,
+    value: undefined
   }
 }
 
-export function rgbToHsl (rgb: Record<string, number>): HslObject {
+// TODO HSLA to RGBA and add to toRgbBase as well, returning RGBA
+
+export function rgbToHsl (rgb: RgbObject): HslObject {
   const r = rgb.r / 255
   const g = rgb.g / 255
   const b = rgb.b / 255
@@ -58,15 +58,12 @@ export function rgbToHsl (rgb: Record<string, number>): HslObject {
 
     switch (max) {
       case r:
-        // eslint-disable-next-line no-mixed-operators
         h = (g - b) / diff + (g < b ? 6 : 0)
         break
       case g:
-        // eslint-disable-next-line no-mixed-operators
         h = (b - r) / diff + 2
         break
       case b:
-        // eslint-disable-next-line no-mixed-operators
         h = (r - g) / diff + 4
         break
       default:
@@ -83,7 +80,7 @@ export function rgbToHsl (rgb: Record<string, number>): HslObject {
   }
 }
 
-export function hslToRgb (hsl: { s: number, h: number, l: number }): RgbObject {
+export function hslToRgb (hsl: HslObject): RgbObject {
   function hue2rgb (p: number, q: number, t: number): number {
     if (t < 0) {
       t += 1
@@ -94,7 +91,6 @@ export function hslToRgb (hsl: { s: number, h: number, l: number }): RgbObject {
     }
 
     if (t < 1 / 6) {
-      // eslint-disable-next-line no-mixed-operators
       return p + (q - p) * 6 * t
     }
 
@@ -103,34 +99,28 @@ export function hslToRgb (hsl: { s: number, h: number, l: number }): RgbObject {
     }
 
     if (t < 2 / 3) {
-      // eslint-disable-next-line no-mixed-operators
       return p + (q - p) * (2 / 3 - t) * 6
     }
 
     return p
   }
 
-  const h = hsl.h / 360
-  const s = hsl.s / 100
-  const l = hsl.l / 100
+  const h = (hsl.h ?? 0) / 360
+  const s = (hsl.s ?? 0) / 100
+  const l = (hsl.l ?? 0) / 100
 
   let r
   let g
   let b
 
   if (s === 0) {
-    // eslint-disable-next-line no-multi-assign
     r = g = b = l // Achromatic
   } else {
-    // eslint-disable-next-line no-mixed-operators
     const q = l < 0.5 ? l * (1 + s) : l + s - l * s
-    // eslint-disable-next-line no-mixed-operators
     const p = 2 * l - q
 
-    // eslint-disable-next-line no-mixed-operators
     r = hue2rgb(p, q, h + 1 / 3)
     g = hue2rgb(p, q, h)
-    // eslint-disable-next-line no-mixed-operators
     b = hue2rgb(p, q, h - 1 / 3)
   }
 
@@ -141,7 +131,15 @@ export function hslToRgb (hsl: { s: number, h: number, l: number }): RgbObject {
   }
 }
 
-export function rgbToHsv (rgb: Record<string, number>): HsvObject {
+export function rgbToHsv (rgb: RgbObject): HsvObject {
+  if (rgb === undefined) {
+    return {
+      h: undefined,
+      s: undefined,
+      v: undefined
+    }
+  }
+
   const r = rgb.r / 255
   const g = rgb.g / 255
   const b = rgb.b / 255
@@ -154,8 +152,7 @@ export function rgbToHsv (rgb: Record<string, number>): HsvObject {
   const v = max
 
   const diff = max - min
-  // eslint-disable-next-line no-mixed-operators
-  const diffc = (c: number) => (max - c) / 6 / diff + 1 / 2
+  const diffc = (c: number): number => (max - c) / 6 / diff + 1 / 2
 
   if (diff === 0) {
     h = 0
@@ -169,10 +166,8 @@ export function rgbToHsv (rgb: Record<string, number>): HsvObject {
     if (r === max) {
       h = b - g
     } else if (g === max) {
-      // eslint-disable-next-line no-mixed-operators
       h = 1 / 3 + rr - bb
     } else if (b === max) {
-      // eslint-disable-next-line no-mixed-operators
       h = 2 / 3 + gg - rr
     }
 
@@ -191,16 +186,14 @@ export function rgbToHsv (rgb: Record<string, number>): HsvObject {
 }
 
 export function hsvToRgb (hsv: HsvObject): RgbObject {
-  const h = hsv.h / 360 * 6
-  const s = hsv.s / 100
-  const v = hsv.v / 100
+  const h = (hsv.h ?? 0) / 360 * 6
+  const s = (hsv.s ?? 0) / 100
+  const v = (hsv.v ?? 0) / 100
 
   const i = Math.floor(h)
   const f = h - i
   const p = v * (1 - s)
-  // eslint-disable-next-line no-mixed-operators
   const q = v * (1 - f * s)
-  // eslint-disable-next-line no-mixed-operators
   const t = v * (1 - (1 - f) * s)
 
   const mod = i % 6
@@ -215,15 +208,15 @@ export function hsvToRgb (hsv: HsvObject): RgbObject {
   }
 }
 
-export function rgbToHex (rgb: Record<string, number>): string {
+export function rgbToHex (rgb: RgbObject): string {
   const binaryRgb = (rgb.r << 16) | (rgb.g << 8) | rgb.b
   return binaryRgb.toString(16).padStart(6, '0')
 }
 
-export function rgbaToHexA (rgba: Record<string, number>): string {
+export function rgbaToHexA (rgba: RgbObject): string {
   const binaryRgb = rgbToHex({ r: rgba.r, g: rgba.g, b: rgba.b })
-  const aHex = rgba.a === 0 ? '00' : convertDecimalToHex(rgba.a)
-  return `${binaryRgb.padStart(6, '0')}${aHex}`
+  const aHex = convertDecimalToHex(rgba.a ?? 1)
+  return `${binaryRgb.padStart(6, '0')}${aHex === '0' ? '00' : aHex}`
 }
 
 export function hexToRgb (hex: string): RgbObject {

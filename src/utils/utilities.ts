@@ -1,14 +1,14 @@
 import { type RgbObject } from '../types'
 
-export function calculateBrightness (values: RgbObject): number {
-  const { r, g, b } = values
+export function calculateBrightness (rgb: RgbObject): number {
+  const { r, g, b } = rgb
   return (r * 299 + g * 587 + b * 114) / 1000
 }
 
 // TODO this is a long calculation, can we make it more efficient?
-export function calculateLuminance (values: RgbObject): number {
+export function calculateLuminance (rgb: RgbObject): number {
   // http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
-  const { r, g, b } = values
+  const { r, g, b } = rgb
   let R, G, B
   const RsRGB = r / 255
   const GsRGB = g / 255
@@ -17,4 +17,13 @@ export function calculateLuminance (values: RgbObject): number {
   if (GsRGB <= 0.03928) G = GsRGB / 12.92; else G = Math.pow((GsRGB + 0.055) / 1.055, 2.4)
   if (BsRGB <= 0.03928) B = BsRGB / 12.92; else B = Math.pow((BsRGB + 0.055) / 1.055, 2.4)
   return 0.2126 * R + 0.7152 * G + 0.0722 * B
+}
+
+export function truncateHex (hex: string): string {
+  if (hex.length === 6) {
+    if (hex[2] === hex[3] && hex[4] === hex[5]) {
+      return hex[0] + hex[1] + hex[2]
+    }
+  }
+  return hex
 }

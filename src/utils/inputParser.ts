@@ -1,6 +1,3 @@
-import { type ColorType, type ColorInfo } from '../types'
-import namedColors from './namedColors'
-
 /*
   Given a string or object, convert that input to an object with the following properties:
     format: string
@@ -21,17 +18,11 @@ import namedColors from './namedColors'
       TODO - LCH / OKLCH / LAB / OKLAB / XYZ / etc.
 */
 
-export function inputParser (color: ColorType): ColorInfo | undefined {
-  if (typeof color === 'string') {
-    return stringInputToObject(color)
-  }
+import { type ColorObjType } from '../types'
+import namedColors from './namedColors'
 
+export function inputParser (color: string): ColorObjType {
   // TODO deal with object being passed in
-}
-
-// parse string input to object
-function stringInputToObject (color: string): ColorInfo | undefined {
-  // Named color
   if (/^[a-z]+$/.test(color) && namedColors[color] !== undefined) {
     return {
       format: 'name',

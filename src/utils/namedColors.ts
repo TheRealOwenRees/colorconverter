@@ -3,9 +3,8 @@
     ------------------
     <https://www.w3.org/TR/css-color-4/#named-colors>
 */
-import { type NamedColors } from '../types'
 
-const namedColors: NamedColors = {
+const namedColors: Record<string, string> = {
   aliceblue: 'f0f8ff',
   antiquewhite: 'faebd7',
   aqua: '0ff',
