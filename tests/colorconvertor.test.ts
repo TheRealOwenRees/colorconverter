@@ -138,5 +138,21 @@ describe('color convertor instance', () => {
       // @ts-expect-error
       expect(new ColorConvertor('rgb(255, 255, 254)').toName()).toBe(undefined)
     })
+    it('get percentage rgb', () => {
+      // @ts-expect-error
+      expect(new ColorConvertor('rgb(255, 255, 255)').toPercentageRgb()).toMatchObject({ r: 100, g: 100, b: 100 })
+    })
+    it('get percentage rgb string', () => {
+      // @ts-expect-error
+      expect(new ColorConvertor('rgb(255, 255, 255)').toPercentageRgbString()).toBe('rgb(100%, 100%, 100%)')
+    })
+    it('is valid', () => {
+      // @ts-expect-error
+      expect(new ColorConvertor('rgb(255, 255, 255)').isValid()).toBe(true)
+    })
+    it('random color', () => {
+      // @ts-expect-error
+      expect(new ColorConvertor().random()).toMatchObject({ format: 'rgb', value: { r: expect.any(Number), g: expect.any(Number), b: expect.any(Number) } })
+    })
   })
 })

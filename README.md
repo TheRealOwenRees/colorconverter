@@ -1,3 +1,5 @@
+Zero dependencies, lightweight color manipulation library.
+
 ## Methods
 
 ### toRgb

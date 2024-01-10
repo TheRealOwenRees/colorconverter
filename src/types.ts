@@ -29,6 +29,7 @@ export interface ColorConvertorInstance {
   _rgbObj: ColorObjType
 
   getInput: () => ColorObjType
+  isValid: () => boolean
   toRgb: (this: ColorConvertorInstance) => ColorObjType
   toRgbString: () => string
   toHsv: (this: ColorConvertorInstance) => HsvObject
@@ -49,4 +50,10 @@ export interface ColorConvertorInstance {
   toNormalizedRgb: () => RgbObject
   toNormalizedRgba: () => RgbObject
   toName: (this: ColorConvertorInstance) => string | undefined
+  // toNearedNamesColor: () => string
+  // toNearestWebSafeColor: () => string
+  toPercentageRgb: () => RgbObject
+  toPercetangeRgbString: () => string
+  // equals: (color: string) => boolean
+  // random: () => RgbObject
 }

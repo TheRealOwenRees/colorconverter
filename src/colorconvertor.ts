@@ -17,67 +17,71 @@ function ColorConvertor (this: ColorConvertorInstance, colorInput: string): void
   this._rgbObj = toRgbBase(this._colorObj) // RGB color info object. E.g. { format: 'rgb', value: { r: 255, g: 255, b: 255 }
 }
 
+// General Methods
 ColorConvertor.prototype = {
-  getInput: function getInput () {
+  getInput () {
+    // TODO allow instance to be created with no input
     return this._colorObj
   },
-  toRgb: function toRgb (this: ColorConvertorInstance) {
+  isValid () {
+    return this._colorObj.value !== undefined
+  },
+  toRgb (this: ColorConvertorInstance) {
     return toRgbBase(this.getInput())
   },
-  toRgbString: function toRgbString () {
+  toRgbString () {
     const { format, value: { r, g, b, a } } = this._rgbObj
     return `${format}(${r}, ${g}, ${b}${a !== undefined ? `, ${a}` : ''})`
   },
-  toHsv: function toHsv () {
+  toHsv () {
     return rgbToHsv(this._rgbObj.value as RgbObject)
   },
-  toHsvString: function toHsvString () {
+  toHsvString () {
     const { h, s, v } = rgbToHsv(this._rgbObj.value as RgbObject)
     return `hsv(${h}, ${s}%, ${v}%)`
   },
-  toHsl: function toHsl () {
+  toHsl () {
     return rgbToHsl(this._rgbObj.value as RgbObject)
   },
-  toHslString: function toHslString () {
+  toHslString () {
     const { h, s, l } = rgbToHsl(this._rgbObj.value as RgbObject)
     return `hsl(${h}, ${s}%, ${l}%)`
   },
-  toHex: function toHex () {
+  toHex () {
     return rgbToHex(this._rgbObj.value as RgbObject)
   },
-  toHexString: function toHexString () {
+  toHexString () {
     return `#${this.toHex()}`
   },
-  toHexA: function toHexA () {
+  toHexA () {
     const { r, g, b } = this._rgbObj.value
     const a = this.getAlpha()
     return rgbaToHexA({ r, g, b, a })
   },
-  toHexAString: function toHexAString () {
+  toHexAString () {
     return `#${this.toHexA()}`
   },
-  getBrightness: function getBrightness () {
+  getBrightness () {
     return calculateBrightness(this._rgbObj.value as RgbObject)
   },
-  getLuminance: function getLuminance () {
+  getLuminance () {
     return calculateLuminance(this._rgbObj.value as RgbObject)
   },
-  isDark: function isDark () {
+  isDark () {
     return this.getBrightness() < 128
   },
-  isLight: function isLight () {
+  isLight () {
     return this.getBrightness() >= 128
   },
-  getFormat: function getFormat () {
+  getFormat () {
     return this._rgbObj.format
   },
-  // TODO get and set alpha for HSLA and HEXA too
-  getAlpha: function getAlpha () {
+  getAlpha () {
     let { a } = this._rgbObj.value
     a = a === undefined ? 1 : a // 100% alpha if working with rgb values
     return a
   },
-  setAlpha: function setAlpha (newAlpha: number) {
+  setAlpha (newAlpha: number) {
     if (newAlpha < 0 || newAlpha > 1) {
       throw new Error('Alpha value must be between 0 and 1')
     }
@@ -86,16 +90,16 @@ ColorConvertor.prototype = {
     this._rgbObj.value = { r, g, b, a }
     return this._rgbObj
   },
-  toNormalizedRgb: function toNormalizedRgb () {
+  toNormalizedRgb () {
     const { r, g, b } = this._rgbObj.value
     return { r: r / 255, g: g / 255, b: b / 255 }
   },
-  toNormalizedRgba: function toNormalizedRgba () {
+  toNormalizedRgba () {
     const { r, g, b } = this._rgbObj.value
     const a = this.getAlpha()
     return { r: r / 255, g: g / 255, b: b / 255, a }
   },
-  toName: function toName (this: ColorConvertorInstance) {
+  toName (this: ColorConvertorInstance) {
     const hex = truncateHex(this.toHex())
     for (const color in namedColors) {
       if (namedColors[color] === hex) {
@@ -103,19 +107,41 @@ ColorConvertor.prototype = {
       }
     }
     return undefined
-  }
-  // getNearestWebSafeColor: function toNearestWebSafe () {
-  //   return false
+  },
+  // toNearestNamedColor () {
+  //   return 'not implemented'
   // },
-  // isValid: function isValid () {
-  //   return false
-  // }
-  // toPercentageRgb: function toPercentageRgb () {
-  //
-  // }
-  // toPercentageRgbString: function toPercentageRgbString () {
-  // }
-
+  // toNearestWebSafeColor () {
+  //   return 'not implemented'
+  // },
+  toPercentageRgb () {
+    const { r, g, b } = this._rgbObj.value
+    return { r: r / 255 * 100, g: g / 255 * 100, b: b / 255 * 100 }
+  },
+  toPercentageRgbString () {
+    const { r, g, b } = this.toPercentageRgb()
+    return `rgb(${r}%, ${g}%, ${b}%)`
+  },
+  // equals () { // TODO accept 2nd color as input and see if they are the same
+  //   return 'not implemented'
+  // },
+  random () {
+    this._rgbObj = {
+      format: 'rgb',
+      value: {
+        r: Math.floor(Math.random() * 256),
+        g: Math.floor(Math.random() * 256),
+        b: Math.floor(Math.random() * 256)
+      }
+    }
+    return this._rgbObj
+  }
 }
+
+// Readability Methods
+
+// Combination Methods
+
+// Utility Methods
 
 export default ColorConvertor
