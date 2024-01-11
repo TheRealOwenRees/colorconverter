@@ -15,14 +15,13 @@
       "hsl(0, 100%, 50%)" or "hsl 0 100% 50%"
       "hsla(0, 100%, 50%, 1)" or "hsla 0 100% 50%, 1"
       "hsv(0, 100%, 100%)" or "hsv 0 100% 100%"
-      TODO - LCH / OKLCH / LAB / OKLAB / XYZ / etc.
+      TODO - OKLCH / OKLAB etc.
 */
 
 import { type ColorObjType } from '../types'
 import namedColors from './namedColors'
 
-// TODO deal with object being passed in
-export function inputParser (color: string): ColorObjType {
+export function inputParser (color: string | undefined): ColorObjType {
   if (color === undefined) {
     return {
       format: undefined,
@@ -57,7 +56,6 @@ export function inputParser (color: string): ColorObjType {
   }
 
   // RGB
-  // todo throw error if rgb is not valid
   if (/^rgb/.test(color)) {
     const rgbArray = color.match(/\d+/g)
     if ((rgbArray != null) && rgbArray.length === 3) {

@@ -1,4 +1,5 @@
-import { type RgbObject } from '../types'
+import { type LabObject, type RgbObject } from '../types'
+import { rgbToXyz, xyzToLab } from './conversions'
 
 export function convertDecimalToHex (d: number): string {
   return Math.round(d * 255).toString(16)
@@ -40,21 +41,21 @@ export function expandHex (hex: string): string {
   return hex
 }
 
-// export function labEuclideanDistance (rgb1: RgbObject, rgb2: RgbObject): number {
-//   return Math.sqrt(Math.pow(rgb1.r - rgb2.r, 2) + Math.pow(rgb1.g - rgb2.g, 2) + Math.pow(rgb1.b - rgb2.b, 2))
-// }
-//
-// export function findClosestColor (rgb: RgbObject, namedColorsRgb: Record<string, RgbObject>): string {
-//   let minDistance = Infinity
-//   let closestColor = ''
-//   // const lab1 = convert to lab
-//   for (const color in namedColorsRgb) {
-//     // const lab2 = convert namedColorsRgb[color] to lab
-//     const distance = labEuclideanDistance(lab1, lab2)
-//     if (distance < minDistance) {
-//       closestColor = color
-//       minDistance = distance
-//     }
-//   }
-//   return closestColor
-// }
+export function labEuclideanDistance (lab1: LabObject, lab2: LabObject): number {
+  return Math.sqrt(Math.pow(lab1.l - lab2.l, 2) + Math.pow(lab1.a - lab2.a, 2) + Math.pow(lab1.b - lab1.b, 2))
+}
+
+export function findClosestColor (rgb: RgbObject, namedColorsRgb: Record<string, RgbObject>): string {
+  let minDistance = Infinity
+  let closestColor = ''
+  const lab1 = xyzToLab(rgbToXyz(rgb))
+  for (const color in namedColorsRgb) {
+    const lab2 = xyzToLab(rgbToXyz(namedColorsRgb[color]))
+    const distance = labEuclideanDistance(lab1, lab2)
+    if (distance < minDistance) {
+      closestColor = color
+      minDistance = distance
+    }
+  }
+  return closestColor
+}

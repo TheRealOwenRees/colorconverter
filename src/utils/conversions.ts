@@ -4,6 +4,7 @@
 */
 
 import {
+  type CmykObject,
   type ColorObjType,
   type HslObject,
   type HsvObject,
@@ -280,5 +281,29 @@ export function labToLch (lab: LabObject): LchObject {
     l,
     c: Math.sqrt(a * a + b * b),
     h
+  }
+}
+
+export function rgbToCmy (rgb: RgbObject): CmykObject {
+  const { r, g, b } = rgb
+  return {
+    c: 1 - (r / 255),
+    m: 1 - (g / 255),
+    y: 1 - (b / 255)
+  }
+}
+
+export function cmyToCmyk (cmy: CmykObject): CmykObject {
+  const { c, m, y } = cmy
+  let k: number = 1
+  if (c < k) k = c
+  if (m < k) k = m
+  if (y < k) k = y
+  if (k === 1) return { c: 0, m: 0, y: 0, k: 1 }
+  return {
+    c: (c - k) / (1 - k),
+    m: (m - k) / (1 - k),
+    y: (y - k) / (1 - k),
+    k
   }
 }

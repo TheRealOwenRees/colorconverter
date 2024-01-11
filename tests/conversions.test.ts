@@ -1,4 +1,13 @@
-import { rgbToHex, hexToRgb, rgbaToHex8, rgbToHsl, hslToRgb, rgbToHsv, hsvToRgb } from '../src/utils/conversions'
+import {
+  rgbToHex,
+  hexToRgb,
+  rgbaToHex8,
+  rgbToHsl,
+  hslToRgb,
+  rgbToHsv,
+  hsvToRgb,
+  rgbToCmy, cmyToCmyk
+} from '../src/utils/conversions'
 
 describe('color conversions', () => {
   it('should convert rgb to hsl', () => {
@@ -24,5 +33,20 @@ describe('color conversions', () => {
   })
   it('should convert 3 digit hex to rgb', () => {
     expect(hexToRgb('fff')).toEqual({ r: 255, g: 255, b: 255 })
+  })
+  it('should convert RGB to CMY', () => {
+    expect(rgbToCmy({ r: 100, g: 24, b: 99 })).toMatchObject({
+      c: expect.closeTo(0.60784, 3),
+      m: expect.closeTo(0.90588, 3),
+      y: expect.closeTo(0.61176, 3)
+    })
+  })
+  it('should convert CMY to CMYK', () => {
+    expect(cmyToCmyk({ c: 0.60784, m: 0.90588, y: 0.61176 })).toMatchObject({
+      c: expect.closeTo(0, 3),
+      m: expect.closeTo(0.76, 3),
+      y: expect.closeTo(0.01, 3),
+      k: expect.closeTo(0.60784, 3)
+    })
   })
 })
