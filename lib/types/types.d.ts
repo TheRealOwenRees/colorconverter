@@ -19,12 +19,31 @@ export interface HslObject {
     l: number | undefined;
     a?: number | undefined;
 }
+export interface XyzObject {
+    x: number;
+    y: number;
+    z: number;
+}
+export interface LabObject {
+    l: number;
+    a: number;
+    b: number;
+}
+export interface LchObject {
+    l: number;
+    c: number;
+    h: number;
+}
 export interface ColorConvertorInstance {
     _colorInput: string;
     _colorObj: ColorObjType;
     _rgbObj: ColorObjType;
-    getInput: () => ColorObjType;
+    getInput: () => string;
+    getColorObj: () => ColorObjType;
+    getRgbObj: () => ColorObjType;
     isValid: () => boolean;
+    setColor: (color: string) => void;
+    fromRatio: () => ColorObjType;
     toRgb: (this: ColorConvertorInstance) => ColorObjType;
     toRgbString: () => string;
     toHsv: (this: ColorConvertorInstance) => HsvObject;
@@ -33,8 +52,14 @@ export interface ColorConvertorInstance {
     toHslString: () => string;
     toHex: () => string;
     toHexString: () => string;
-    toHexA: () => string;
-    toHexAString: () => string;
+    toHex8: () => string;
+    toHex8String: () => string;
+    toXyz: () => XyzObject;
+    toXyzString: () => string;
+    toLab: () => LabObject;
+    toLabString: () => string;
+    toLch: () => LchObject;
+    toLchString: () => string;
     getBrightness: () => number;
     getLuminance: () => number;
     isDark: () => boolean;
@@ -45,7 +70,13 @@ export interface ColorConvertorInstance {
     toNormalizedRgb: () => RgbObject;
     toNormalizedRgba: () => RgbObject;
     toName: (this: ColorConvertorInstance) => string | undefined;
+    toNearedNamesColor: () => string;
+    toNearestWebSafeColor: () => string;
     toPercentageRgb: () => RgbObject;
-    toPercetangeRgbString: () => string;
+    toPercentageRgbString: () => string;
+    equals: (color2: string) => boolean;
+    random: () => RgbObject;
+    readability: (color2: string) => number;
+    isReadable: (color2: string) => boolean;
 }
 //# sourceMappingURL=types.d.ts.map

@@ -1,4 +1,4 @@
-import { rgbToHex, hexToRgb, rgbaToHexA, rgbToHsl, hslToRgb, rgbToHsv, hsvToRgb } from '../src/utils/conversions'
+import { rgbToHex, hexToRgb, rgbaToHex8, rgbToHsl, hslToRgb, rgbToHsv, hsvToRgb } from '../src/utils/conversions'
 
 describe('color conversions', () => {
   it('should convert rgb to hsl', () => {
@@ -17,9 +17,12 @@ describe('color conversions', () => {
     expect(rgbToHex({ r: 255, g: 255, b: 255 })).toBe('ffffff')
   })
   it('should convert rgba to argb hex', () => {
-    expect(rgbaToHexA({ r: 67, g: 255, b: 100, a: 0.8 })).toBe('43ff64cc')
+    expect(rgbaToHex8({ r: 67, g: 255, b: 100, a: 0.8 })).toBe('43ff64cc')
   })
   it('should convert hex to rgb', () => {
-    expect(hexToRgb('#ffffff')).toEqual({ r: 255, g: 255, b: 255 })
+    expect(hexToRgb('ffffff')).toEqual({ r: 255, g: 255, b: 255 })
+  })
+  it('should convert 3 digit hex to rgb', () => {
+    expect(hexToRgb('fff')).toEqual({ r: 255, g: 255, b: 255 })
   })
 })
