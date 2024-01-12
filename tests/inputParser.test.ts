@@ -69,16 +69,16 @@ describe('color parsing', () => {
     const colorConvertorInstance = new ColorConvertor('hsv(4, 96%, 54.5%)')
     expect(colorConvertorInstance.getColorObj()).toMatchObject({ format: 'hsv', value: { h: 4, s: 96, v: 54.5 } })
   })
-  // it('parse lch', () => {
-  //   const colorConvertorInstance = new ColorConvertor('lch(54.5%, 4, 96)')
-  //   expect(colorConvertorInstance.getColorObj()).toMatchObject({ format: 'lch', value: { l: 54.5, c: 4, h: 96 } })
-  // })
-  // it('parse lab', () => {
-  //   const colorConvertorInstance = new ColorConvertor('lab(54.5%, 4, 96)')
-  //   expect(colorConvertorInstance.getColorObj()).toMatchObject({ format: 'lab', value: { l: 54.5, a: 4, b: 96 } })
-  // })
-  // it('parse xyz', () => {
-  //   const colorConvertorInstance = new ColorConvertor('xyz(54.5%, 4, 96)')
-  //   expect(colorConvertorInstance.getColorObj()).toMatchObject({ format: 'xyz', value: { x: 54.5, y: 4, z: 96 } })
-  // })
+//   // it('parse lch', () => {
+//   //   const colorConvertorInstance = new ColorConvertor('lch(54.5%, 4, 96)')
+//   //   expect(colorConvertorInstance.getColorObj()).toMatchObject({ format: 'lch', value: { l: 54.5, c: 4, h: 96 } })
+//   // })
+//   // it('parse lab', () => {
+//   //   const colorConvertorInstance = new ColorConvertor('lab(54.5%, 4, 96)')
+//   //   expect(colorConvertorInstance.getColorObj()).toMatchObject({ format: 'lab', value: { l: 54.5, a: 4, b: 96 } })
+//   // })
+//   // it('parse xyz', () => {
+//   //   const colorConvertorInstance = new ColorConvertor('xyz(54.5%, 4, 96)')
+//   //   expect(colorConvertorInstance.getColorObj()).toMatchObject({ format: 'xyz', value: { x: 54.5, y: 4, z: 96 } })
+//   // })
 })

@@ -7,7 +7,7 @@ describe('readability methods', () => {
   it('readability value 21', () => {
     expect(new ColorConvertor('rgb(255, 255, 255)').readability('#000000')).toBe(21)
   })
-  // it('is readable', () => {
-  //   expect(new ColorConvertor('rgb(255, 255, 255)').isReadable('#000000')).toBe(true)
-  // })
+//   // it('is readable', () => {
+//   //   expect(new ColorConvertor('rgb(255, 255, 255)').isReadable('#000000')).toBe(true)
+//   // })
 })

@@ -4,10 +4,10 @@ export interface ColorObjType {
 }
 
 export interface RgbObject {
-  r: number
-  g: number
-  b: number
-  a?: number
+  r: number | undefined
+  g: number | undefined
+  b: number | undefined
+  a?: number | undefined
 }
 
 export interface HsvObject {
@@ -24,26 +24,26 @@ export interface HslObject {
 }
 
 export interface XyzObject {
-  x: number
-  y: number
-  z: number
+  x: number | undefined
+  y: number | undefined
+  z: number | undefined
 }
 
 export interface LabObject {
-  l: number
-  a: number
-  b: number
+  l: number | undefined
+  a: number | undefined
+  b: number | undefined
 }
 
 export interface LchObject {
-  l: number
-  c: number
-  h: number
+  l: number | undefined
+  c: number | undefined
+  h: number | undefined
 }
 
 export interface CmykObject {
-  c: number
-  m: number
-  y: number
-  k?: number
+  c: number | undefined
+  m: number | undefined
+  y: number | undefined
+  k?: number | undefined
 }
