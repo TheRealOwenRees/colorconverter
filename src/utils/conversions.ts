@@ -44,8 +44,6 @@ export function toRgbBase (colorObj: ColorObjType): ColorObjType {
   }
 }
 
-// TODO HSLA to RGBA and add to toRgbBase as well, returning RGBA
-
 export function rgbToHsl (rgb: RgbObject): HslObject {
   const r = rgb.r / 255
   const g = rgb.g / 255
@@ -305,5 +303,79 @@ export function cmyToCmyk (cmy: CmykObject): CmykObject {
     m: (m - k) / (1 - k),
     y: (y - k) / (1 - k),
     k
+  }
+}
+
+export function lchToLab (lch: LchObject): LabObject {
+  const { l, c, h } = lch
+  const hr = h * Math.PI / 180
+  return {
+    l,
+    a: Math.cos(hr) * c,
+    b: Math.sin(hr) * c
+  }
+}
+
+// TODO allow reference white to be passed in
+export function labToXyz (lab: LabObject, referenceWhite = {
+  x: 95.047,
+  y: 100,
+  z: 108.883
+}): XyzObject {
+  const { l, a, b } = lab
+
+  let y = (l + 16) / 116
+  let x = a / 500 + y
+  let z = y - b / 200
+
+  const y2 = Math.pow(y, 3)
+  const x2 = Math.pow(x, 3)
+  const z2 = Math.pow(z, 3)
+  y = y2 > 0.008856 ? y2 : (y - 16 / 116) / 7.787
+  x = x2 > 0.008856 ? x2 : (x - 16 / 116) / 7.787
+  z = z2 > 0.008856 ? z2 : (z - 16 / 116) / 7.787
+
+  return {
+    x: x * referenceWhite.x,
+    y: y * referenceWhite.y,
+    z: z * referenceWhite.z
+  }
+}
+
+export function xyzToRgb (xyz: XyzObject): RgbObject {
+  let { x, y, z } = xyz
+  x /= 100
+  y /= 100
+  z /= 100
+
+  let r = x * 3.2406 + y * -1.5372 + z * -0.4986
+  let g = x * -0.9689 + y * 1.8758 + z * 0.0415
+  let b = x * 0.0557 + y * -0.2040 + z * 1.0570
+
+  r = r > 0.0031308 ? 1.055 * Math.pow(r, 1 / 2.4) - 0.055 : r * 12.92
+  g = g > 0.0031308 ? 1.055 * Math.pow(g, 1 / 2.4) - 0.055 : g * 12.92
+  b = b > 0.0031308 ? 1.055 * Math.pow(b, 1 / 2.4) - 0.055 : b * 12.92
+
+  return {
+    r: Math.round(r * 255),
+    g: Math.round(g * 255),
+    b: Math.round(b * 255)
+  }
+}
+
+export function xyzToRgbNormalized (xyz: XyzObject): RgbObject {
+  let { x, y, z } = xyz
+  x /= 100
+  y /= 100
+  z /= 100
+
+  const r = x * 3.2406 + y * -1.5372 + z * -0.4986
+  const g = x * -0.9689 + y * 1.8758 + z * 0.0415
+  const b = x * 0.0557 + y * -0.2040 + z * 1.0570
+
+  return {
+    r: r > 0.0031308 ? 1.055 * Math.pow(r, 1 / 2.4) - 0.055 : r * 12.92,
+    g: g > 0.0031308 ? 1.055 * Math.pow(g, 1 / 2.4) - 0.055 : g * 12.92,
+    b: b > 0.0031308 ? 1.055 * Math.pow(b, 1 / 2.4) - 0.055 : b * 12.92
   }
 }

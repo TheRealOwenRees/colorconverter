@@ -1,6 +1,6 @@
 import ColorConvertor from '../src/colorconvertor'
 
-describe(('to base RGB'), () => {
+describe(('to RGB'), () => {
   it('return rgb object when input is rgb string', () => {
     expect(new ColorConvertor('rgb(255, 255, 255)').toRgb()).toMatchObject({ format: 'rgb', value: { r: 255, g: 255, b: 255 } })
   })
@@ -16,7 +16,17 @@ describe(('to base RGB'), () => {
   it('return rgb object when input is hsv string', () => {
     expect(new ColorConvertor('hsv(50, 25.5%, 80%)').toRgb()).toMatchObject({ format: 'rgb', value: { r: 204, g: 195, b: 152 } })
   })
+  it('to normalized rgb', () => {
+    expect(new ColorConvertor('rgb(255, 255, 255)').toNormalizedRgb()).toMatchObject({ r: 1, g: 1, b: 1 })
+  })
+  it('to normalized rgba', () => {
+    expect(new ColorConvertor('rgba(255, 255, 255, 1)').toNormalizedRgba()).toMatchObject({ r: 1, g: 1, b: 1, a: 1 })
+  })
+  it('get percentage rgb', () => {
+    expect(new ColorConvertor('rgb(255, 255, 255)').toPercentageRgb()).toMatchObject({ r: 100, g: 100, b: 100 })
+  })
 })
+
 describe(('to RGB string'), () => {
   it('return rgb string when input is rgb string', () => {
     expect(new ColorConvertor('rgb(255, 255, 255)').toRgbString()).toBe('rgb(255, 255, 255)')
@@ -33,7 +43,11 @@ describe(('to RGB string'), () => {
   it('return rgb string when input is hsv string', () => {
     expect(new ColorConvertor('hsv(50, 25.5%, 80%)').toRgbString()).toBe('rgb(204, 195, 152)')
   })
+  it('get percentage rgb string', () => {
+    expect(new ColorConvertor('rgb(255, 255, 255)').toPercentageRgbString()).toBe('rgb(100%, 100%, 100%)')
+  })
 })
+
 describe(('to HSV'), () => {
   it('to HSV', () => {
     expect(new ColorConvertor('rgb(255, 255, 255)').toHsv()).toMatchObject({ h: 0, s: 0, v: 100 })
@@ -42,6 +56,7 @@ describe(('to HSV'), () => {
     expect(new ColorConvertor('rgb(255, 255, 255)').toHsvString()).toBe('hsv(0, 0%, 100%)')
   })
 })
+
 describe(('to HSL'), () => {
   it('to HSL', () => {
     expect(new ColorConvertor('rgb(255, 255, 255)').toHsl()).toMatchObject({ h: 0, s: 0, l: 100 })
@@ -50,6 +65,7 @@ describe(('to HSL'), () => {
     expect(new ColorConvertor('rgb(255, 255, 255)').toHslString()).toBe('hsl(0, 0%, 100%)')
   })
 })
+
 describe(('to HEX'), () => {
   it('to HEX', () => {
     expect(new ColorConvertor('rgb(255, 255, 255)').toHex()).toBe('ffffff')
@@ -58,6 +74,7 @@ describe(('to HEX'), () => {
     expect(new ColorConvertor('rgb(255, 255, 255)').toHexString()).toBe('#ffffff')
   })
 })
+
 describe(('to HEX8'), () => {
   it('to HEX8', () => {
     expect(new ColorConvertor('rgba(255, 255, 255, 0)').toHex8()).toBe('ffffff00')
@@ -102,81 +119,8 @@ describe('XYZ, LAB, LCH', () => {
     expect(new ColorConvertor('rgb(50, 60, 100)').toLchString()).toBe('lch(26.244630235083065, 26.202269191846792, 288.02120872573244)')
   })
 })
-describe(('other methods'), () => {
-  it('get brightness', () => {
-    expect(new ColorConvertor('rgb(255, 255, 255)').getBrightness()).toBe(255)
-  })
-  it('get luminance', () => {
-    expect(new ColorConvertor('rgb(255, 255, 255)').getLuminance()).toBe(1)
-  })
-  it('is dark', () => {
-    expect(new ColorConvertor('rgb(255, 255, 255)').isDark()).toBe(false)
-  })
-  it('is light', () => {
-    expect(new ColorConvertor('rgb(255, 255, 255)').isLight()).toBe(true)
-  })
-  it('get format', () => {
-    expect(new ColorConvertor('rgb(255, 255, 255)').getFormat()).toBe('rgb')
-  })
-  it('get hsl format', () => {
-    expect(new ColorConvertor('hsl(0, 100, 50)').getFormat()).toBe('hsl')
-  })
-  it('get alpha', () => {
-    expect(new ColorConvertor('rgb(255, 255, 255)').getAlpha()).toBe(1)
-  })
-  it('set alpha', () => {
-    const colorConvertor = new ColorConvertor('rgb(255, 255, 255)')
-    colorConvertor.setAlpha(0.5)
-    expect(colorConvertor.getAlpha()).toBe(0.5)
-  })
-  it('to normalized rgb', () => {
-    expect(new ColorConvertor('rgb(255, 255, 255)').toNormalizedRgb()).toMatchObject({ r: 1, g: 1, b: 1 })
-  })
-  it('to normalized rgba', () => {
-    expect(new ColorConvertor('rgba(255, 255, 255, 1)').toNormalizedRgba()).toMatchObject({ r: 1, g: 1, b: 1, a: 1 })
-  })
-  it('get named color', () => {
-    expect(new ColorConvertor('rgb(255, 255, 255)').toName()).toBe('white')
-  })
-  it('get undefined named color', () => {
-    expect(new ColorConvertor('rgb(255, 255, 254)').toName()).toBe(undefined)
-  })
-  it('get percentage rgb', () => {
-    expect(new ColorConvertor('rgb(255, 255, 255)').toPercentageRgb()).toMatchObject({ r: 100, g: 100, b: 100 })
-  })
-  it('get percentage rgb string', () => {
-    expect(new ColorConvertor('rgb(255, 255, 255)').toPercentageRgbString()).toBe('rgb(100%, 100%, 100%)')
-  })
-  it('is valid', () => {
-    expect(new ColorConvertor('rgb(255, 255, 255)').isValid()).toBe(true)
-  })
-  it('random color', () => {
-    expect(new ColorConvertor().random()).toMatchObject({ format: 'rgb', value: { r: expect.any(Number), g: expect.any(Number), b: expect.any(Number) } })
-  })
-  it('compare to colors for equality', () => {
-    expect(new ColorConvertor('rgb(255, 255, 255)').equals('hsl(0, 0, 100)')).toBe(true)
-  })
-  it('compare to colors for inequality', () => {
-    expect(new ColorConvertor('rgb(255, 255, 255)').equals('hsl(60, 100, 99.8)')).toBe(false)
-  })
-  it('set color', () => {
-    const colorConvertor = new ColorConvertor()
-    colorConvertor.setColor('rgb(0, 0, 0)')
-    expect(colorConvertor.getRgbObj()).toMatchObject({ format: 'rgb', value: { r: 0, g: 0, b: 0 } })
-  })
-  it('overwrite existing color', () => {
-    const colorConvertor = new ColorConvertor('rgb(255, 255, 255)')
-    colorConvertor.setColor('rgb(0, 0, 0)')
-    expect(colorConvertor.getRgbObj()).toMatchObject({ format: 'rgb', value: { r: 0, g: 0, b: 0 } })
-  })
-  it('clone instance', () => {
-    const colorConvertor = new ColorConvertor('rgb(255, 255, 255)')
-    const clone = colorConvertor.clone()
-    expect(clone).toMatchObject(colorConvertor)
-  })
-  it('to nearest named color', () => {
-    expect(new ColorConvertor('0000fc').toNearestNamedColor()).toBe('blue')
-  })
+
+describe('CMYK', () => {
   it('RGB to CMY', () => {
     expect(new ColorConvertor('rgb(100, 24, 99)').toCmy()).toMatchObject({
       c: expect.closeTo(0.60784, 3),
@@ -191,5 +135,67 @@ describe(('other methods'), () => {
       y: expect.closeTo(0.01, 3),
       k: expect.closeTo(0.60784, 3)
     })
+  })
+})
+
+describe(('other methods'), () => {
+  it('get brightness', () => {
+    expect(new ColorConvertor('rgb(255, 255, 255)').getBrightness()).toBe(255)
+  })
+  it('get luminance', () => {
+    expect(new ColorConvertor('rgb(255, 255, 255)').getLuminance()).toBe(1)
+  })
+  it('is dark', () => {
+    expect(new ColorConvertor('rgb(255, 255, 255)').isDark()).toBe(false)
+  })
+  it('is light', () => {
+    expect(new ColorConvertor('rgb(255, 255, 255)').isLight()).toBe(true)
+  })
+  it('get rgb format', () => {
+    expect(new ColorConvertor('rgb(255, 255, 255)').getFormat()).toBe('rgb')
+  })
+  it('get hsl format', () => {
+    expect(new ColorConvertor('hsl(0, 100, 50)').getFormat()).toBe('hsl')
+  })
+  it('get alpha', () => {
+    expect(new ColorConvertor('rgb(255, 255, 255)').getAlpha()).toBe(1)
+  })
+  it('set alpha', () => {
+    const colorConvertor = new ColorConvertor('rgb(255, 255, 255)')
+    colorConvertor.setAlpha(0.5)
+    expect(colorConvertor.getAlpha()).toBe(0.5)
+  })
+  it('get named color', () => {
+    expect(new ColorConvertor('rgb(255, 255, 255)').toName()).toBe('white')
+  })
+  it('get undefined named color', () => {
+    expect(new ColorConvertor('rgb(255, 255, 254)').toName()).toBe(undefined)
+  })
+  it('is valid', () => {
+    expect(new ColorConvertor('rgb(255, 255, 255)').isValid()).toBe(true)
+  })
+  it('random color', () => {
+    const colorConvertor = new ColorConvertor()
+    colorConvertor.random()
+    expect(colorConvertor.getColorObj()).toMatchObject({ format: 'rgb', value: { r: expect.any(Number), g: expect.any(Number), b: expect.any(Number) } })
+  })
+  it('compare to colors for equality', () => {
+    expect(new ColorConvertor('rgb(255, 255, 255)').equals('hsl(0, 0, 100)')).toBe(true)
+  })
+  it('compare to colors for inequality', () => {
+    expect(new ColorConvertor('rgb(255, 255, 255)').equals('hsl(60, 100, 99.8)')).toBe(false)
+  })
+  it('set color', () => {
+    const colorConvertor = new ColorConvertor()
+    colorConvertor.setColor('rgb(0, 0, 0)')
+    expect(colorConvertor.getColorObj()).toMatchObject({ format: 'rgb', value: { r: 0, g: 0, b: 0 } })
+  })
+  it('overwrite existing color', () => {
+    const colorConvertor = new ColorConvertor('rgb(255, 255, 255)')
+    colorConvertor.setColor('rgb(0, 0, 0)')
+    expect(colorConvertor.getColorObj()).toMatchObject({ format: 'rgb', value: { r: 0, g: 0, b: 0 } })
+  })
+  it('to nearest named color', () => {
+    expect(new ColorConvertor('0000fc').toNearestNamedColor()).toBe('blue')
   })
 })

@@ -6,7 +6,7 @@ declare class ColorConvertor {
     constructor(colorInput?: string);
     getInput(): string;
     getColorObj(): ColorObjType;
-    getRgbObj(): ColorObjType;
+    getRgbObj(): RgbObject;
     isValid(): boolean;
     setColor(color: string): void;
     toRgb(): ColorObjType;
@@ -41,7 +41,7 @@ declare class ColorConvertor {
     toPercentageRgb(): RgbObject;
     toPercentageRgbString(): string;
     equals(color2: string): boolean;
-    random(): ColorObjType;
+    random(): void;
     clone(): ColorConvertor;
     readability(color2: string): number;
 }

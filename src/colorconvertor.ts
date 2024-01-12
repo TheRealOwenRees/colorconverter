@@ -31,12 +31,12 @@ import namedColors, { namedColorsRgb } from './utils/namedColors'
 class ColorConvertor {
   private _colorInput: string | undefined
   private _colorObj: ColorObjType
-  private _rgbObj: ColorObjType
+  private _rgbObj: RgbObject
 
   constructor (colorInput?: string) {
     this._colorInput = colorInput ?? undefined // string input of any color format
     this._colorObj = inputParser(this._colorInput) // Color info object. E.g. { format: 'hex', value: '#ffffff' }
-    this._rgbObj = toRgbBase(this._colorObj) // RGB color info object. E.g. { format: 'rgb', value: { r: 255, g: 255, b: 255 }
+    this._rgbObj = toRgbBase(this._colorObj).value as RgbObject // RGB values object. E.g. { r: 255, g: 255, b: 255 }
   }
 
   /*
@@ -50,8 +50,12 @@ class ColorConvertor {
     return this._colorObj
   }
 
-  getRgbObj (): ColorObjType {
+  getRgbObj (): RgbObject {
     return this._rgbObj
+  }
+
+  setRbgObj (rgbObj: RgbObject): void {
+    this._rgbObj = rgbObj
   }
 
   isValid (): boolean {
@@ -61,43 +65,46 @@ class ColorConvertor {
   setColor (color: string): void {
     this._colorInput = color
     this._colorObj = inputParser(this.getInput())
-    this._rgbObj = toRgbBase(this.getColorObj())
+    this._rgbObj = toRgbBase(this.getColorObj()).value as RgbObject
   }
 
   // fromRatio () {
   //   return 'not implemented'
   // },
 
+  // fromPercentageRgb () {
+  //   return 'not implemented'
+  // },
+
   toRgb (): ColorObjType {
-    return toRgbBase(this.getColorObj())
+    return toRgbBase(this.getColorObj()) // TODO round rgb values and * 255, remove alpha
   }
 
-  toRgbString (): string {
-    const { format, value } = this.getRgbObj()
-    const { r, g, b, a } = value as RgbObject
-    return `${format}(${r}, ${g}, ${b}${a !== undefined ? `, ${a}` : ''})`
+  toRgbString (): string { // TODO call toRgb first
+    const { r, g, b, a } = this.getRgbObj()
+    return `${a !== undefined ? 'rgba' : 'rgb'}(${r}, ${g}, ${b}${a !== undefined ? `, ${a}` : ''})`
   }
 
   toHsv (): HsvObject {
-    return rgbToHsv(this.getRgbObj().value as RgbObject)
+    return rgbToHsv(this.getRgbObj())
   }
 
   toHsvString (): string {
-    const { h, s, v } = rgbToHsv(this.getRgbObj().value as RgbObject)
+    const { h, s, v } = rgbToHsv(this.getRgbObj())
     return `hsv(${h}, ${s}%, ${v}%)`
   }
 
   toHsl (): HslObject {
-    return rgbToHsl(this.getRgbObj().value as RgbObject)
+    return rgbToHsl(this.getRgbObj())
   }
 
   toHslString (): string {
-    const { h, s, l } = rgbToHsl(this.getRgbObj().value as RgbObject)
+    const { h, s, l } = rgbToHsl(this.getRgbObj())
     return `hsl(${h}, ${s}%, ${l}%)`
   }
 
   toHex (): string {
-    return rgbToHex(this.getRgbObj().value as RgbObject)
+    return rgbToHex(this.getRgbObj())
   }
 
   toHexString (): string {
@@ -105,7 +112,7 @@ class ColorConvertor {
   }
 
   toHex8 (): string {
-    const { r, g, b } = this.getRgbObj().value as RgbObject
+    const { r, g, b } = this.getRgbObj()
     const a = this.getAlpha()
     return rgbaToHex8({ r, g, b, a })
   }
@@ -115,7 +122,7 @@ class ColorConvertor {
   }
 
   toCmy (): CmykObject {
-    return rgbToCmy(this.getRgbObj().value as RgbObject)
+    return rgbToCmy(this.getRgbObj())
   }
 
   toCmyk (): CmykObject {
@@ -157,11 +164,11 @@ class ColorConvertor {
   }
 
   getBrightness (): number {
-    return calculateBrightness(this.getRgbObj().value as RgbObject)
+    return calculateBrightness(this.getRgbObj())
   }
 
   getLuminance (): number {
-    return calculateLuminance(this.getRgbObj().value as RgbObject)
+    return calculateLuminance(this.getRgbObj())
   }
 
   isDark (): boolean {
@@ -177,7 +184,7 @@ class ColorConvertor {
   }
 
   getAlpha (): number | undefined {
-    let { a } = this.getRgbObj().value as RgbObject
+    let { a } = this.getRgbObj()
     a = a ?? 1 // 100% alpha if working with rgb values
     return a
   }
@@ -186,18 +193,18 @@ class ColorConvertor {
     if (newAlpha < 0 || newAlpha > 1) {
       throw new Error('Alpha value must be between 0 and 1')
     }
-    const { r, g, b } = this.getRgbObj().value as RgbObject
+    const { r, g, b } = this.getRgbObj()
     const a = newAlpha
-    this.getRgbObj().value = { r, g, b, a }
+    this.setRbgObj({ r, g, b, a })
   }
 
   toNormalizedRgb (): RgbObject {
-    const { r, g, b } = this.getRgbObj().value as RgbObject
+    const { r, g, b } = this.getRgbObj()
     return { r: r / 255, g: g / 255, b: b / 255 }
   }
 
   toNormalizedRgba (): RgbObject {
-    const { r, g, b } = this.getRgbObj().value as RgbObject
+    const { r, g, b } = this.getRgbObj()
     const a = this.getAlpha()
     return { r: r / 255, g: g / 255, b: b / 255, a }
   }
@@ -213,12 +220,12 @@ class ColorConvertor {
   }
 
   toNearestNamedColor (): string {
-    const rgb = this.getRgbObj().value as RgbObject
+    const rgb = this.getRgbObj()
     return findClosestColor(rgb, namedColorsRgb)
   }
 
   toPercentageRgb (): RgbObject {
-    const { r, g, b } = this.getRgbObj().value as RgbObject
+    const { r, g, b } = this.getRgbObj()
     return { r: r / 255 * 100, g: g / 255 * 100, b: b / 255 * 100 }
   }
 
@@ -228,13 +235,13 @@ class ColorConvertor {
   }
 
   equals (color2: string): boolean {
-    const { r, g, b } = this.getRgbObj().value as RgbObject
+    const { r, g, b } = this.getRgbObj()
     const color2RgbObj = toRgbBase(inputParser(color2)).value as RgbObject
     return color2RgbObj.r === r && color2RgbObj.g === g && color2RgbObj.b === b
   }
 
-  random (): ColorObjType {
-    this._rgbObj = {
+  random (): void {
+    this._colorObj = {
       format: 'rgb',
       value: {
         r: Math.floor(Math.random() * 256),
@@ -242,7 +249,7 @@ class ColorConvertor {
         b: Math.floor(Math.random() * 256)
       }
     }
-    return this._rgbObj
+    this.setRbgObj(toRgbBase(this.getColorObj()).value as RgbObject)
   }
 
   clone (): ColorConvertor {
