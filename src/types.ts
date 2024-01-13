@@ -11,39 +11,40 @@ export interface RgbObject {
 }
 
 export interface HsvObject {
-  h: number | undefined
-  s: number | undefined
-  v: number | undefined
+  h: number
+  s: number
+  v: number
 }
 
 export interface HslObject {
-  h: number | undefined
-  s: number | undefined
-  l: number | undefined
-  a?: number | undefined
+  h: number
+  s: number
+  l: number
+  a?: number
 }
 
 export interface XyzObject {
-  x: number | undefined
-  y: number | undefined
-  z: number | undefined
+  x: number
+  y: number
+  z: number
 }
 
 export interface LabObject {
-  l: number | undefined
-  a: number | undefined
-  b: number | undefined
+  l: number
+  a: number
+  b: number
+  alpha?: number
 }
 
 export interface LchObject {
-  l: number | undefined
-  c: number | undefined
-  h: number | undefined
+  l: number
+  c: number
+  h: number
 }
 
 export interface CmykObject {
-  c: number | undefined
-  m: number | undefined
-  y: number | undefined
-  k?: number | undefined
+  c: number
+  m: number
+  y: number
+  k?: number
 }

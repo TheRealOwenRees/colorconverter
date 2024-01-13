@@ -2,7 +2,7 @@ import {
   hexToRgb,
   hslToRgbNormalized, hsvToRgbNormalized, labToXyz, lchToLab, rgbNormalizedToHsv, rgbToHex,
   rgbNormalizedToHsl,
-  rgbToNormalizedRgb, rgbaToHex8, rgbNormalizedToCmy, cmyToCmyk, xyzToRgbNormalized
+  rgbToNormalizedRgb, rgbaToHex8, rgbNormalizedToCmy, cmyToCmyk, xyzToRgbNormalized, xyzToOklab, okLabToXyz
 } from '../src/utils/conversions'
 
 describe('RGB to RGB Base - normalized rgb values', () => {
@@ -92,6 +92,23 @@ describe('color conversions', () => {
       r: expect.closeTo(0.57102, 2),
       g: expect.closeTo(0.51355, 2),
       b: expect.closeTo(0.15614, 2)
+    })
+  })
+})
+
+describe('OKLAB', () => {
+  it('XYZ -> OKLAB', () => {
+    expect(xyzToOklab({ x: 1, y: 0, z: 0 })).toMatchObject({
+      l: expect.closeTo(0.450, 3),
+      a: expect.closeTo(1.236, 3),
+      b: expect.closeTo(-0.019, 3)
+    })
+  })
+  it('OKLAB -> XYZ', () => {
+    expect(okLabToXyz({ l: 1, a: 0, b: 0 })).toMatchObject({
+      x: expect.closeTo(0.950, 2),
+      y: expect.closeTo(1.0, 2),
+      z: expect.closeTo(1.089, 2)
     })
   })
 })
