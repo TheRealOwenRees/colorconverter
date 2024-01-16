@@ -79,6 +79,18 @@ class ColorConvertor {
   }
 
   /**
+   * Checks if the parsed color is valid
+   * @returns {boolean} - true if the parsed color is valid
+   * @memberof ColorConvertor
+   * @example
+   * const color = new ColorConvertor('red')
+   * color.isValid() // true
+   */
+  isValid(): boolean {
+    return this.getColorObj().value !== undefined;
+  }
+
+  /**
    * Returns the RGB values in the range 0-255
    * @returns {RgbObject} - RGB values object
    * @memberof ColorConvertor
@@ -103,16 +115,20 @@ class ColorConvertor {
     return `${a !== undefined ? "rgba" : "rgb"}(${r}, ${g}, ${b}${a !== undefined ? `, ${a}` : ""})`;
   }
 
-  /**
-   * Checks if the parsed color is valid
-   * @returns {boolean} - true if the parsed color is valid
-   * @memberof ColorConvertor
-   * @example
-   * const color = new ColorConvertor('red')
-   * color.isValid() // true
-   */
-  isValid(): boolean {
-    return this.getColorObj().value !== undefined;
+  toNormalizedRgb(): string {
+    return "not implemented";
+  }
+
+  toNormalizedRgbString(): string {
+    return "not implemented";
+  }
+
+  toNormalizedRgba(): string {
+    return "not implemented";
+  }
+
+  toNormalizedRgbaString(): string {
+    return "not implemented";
   }
 
   // TODO implement
@@ -454,6 +470,10 @@ class ColorConvertor {
   toNearestNamedColor(): string {
     const rgb = rgbNormalizedToRgb(this.getRgbObj());
     return findClosestColor(rgb, namedColorsRgb);
+  }
+
+  toNearestWebSafeColor(): string {
+    return "not implemented";
   }
 
   /**
