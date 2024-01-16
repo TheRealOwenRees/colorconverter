@@ -8,9 +8,13 @@
 import {
   type CmykObject,
   type ColorObjType,
-  type HslObject, type HsvObject, type LabObject, type LchObject,
-  type RgbObject, type XyzObject
-} from './types'
+  type HslObject,
+  type HsvObject,
+  type LabObject,
+  type LchObject,
+  type RgbObject,
+  type XyzObject,
+} from "./types";
 import {
   rgbNormalizedToRgb,
   rgbNormalizedToHsl,
@@ -22,51 +26,56 @@ import {
   xyzToLab,
   labToLch,
   rgbToHex,
-  rgbaToHex8
-} from './utils/conversions'
-import { inputParser } from './utils/inputParser'
-import { calculateBrightness, calculateLuminance, findClosestColor, truncateHex } from './utils/utilities'
-import namedColors, { namedColorsRgb } from './utils/namedColors'
+  rgbaToHex8,
+} from "./utils/conversions";
+import { inputParser } from "./utils/inputParser";
+import {
+  calculateBrightness,
+  calculateLuminance,
+  findClosestColor,
+  truncateHex,
+} from "./utils/utilities";
+import namedColors, { namedColorsRgb } from "./utils/namedColors";
 
 class ColorConvertor {
-  private _colorInput: string | undefined
-  private _colorObj: ColorObjType
-  private _rgbObj: RgbObject
+  private _colorInput: string | undefined;
+  private _colorObj: ColorObjType;
+  private _rgbObj: RgbObject;
 
-  constructor (colorInput?: string) {
-    this._colorInput = colorInput ?? undefined // string input of any color format
-    this._colorObj = inputParser(this._colorInput) // Color info object created from _colorInput. E.g. { format: 'hex', value: '#ffffff' }
-    this._rgbObj = toRgbBase(this._colorObj) // RGB normalised values object - 0-1. E.g. { r: 1, g: 0.5, b: 0.8 }
+  constructor(colorInput?: string) {
+    this._colorInput = colorInput ?? undefined; // string input of any color format
+    this._colorObj = inputParser(this._colorInput); // Color info object created from _colorInput. E.g. { format: 'hex', value: '#ffffff' }
+    this._rgbObj = toRgbBase(this._colorObj); // RGB normalised values object - 0-1. E.g. { r: 1, g: 0.5, b: 0.8 }
   }
 
-  getInput (): string {
-    return this._colorInput ?? ''
+  getInput(): string {
+    return this._colorInput ?? "";
   }
 
-  getColorObj (): ColorObjType {
-    return this._colorObj
+  getColorObj(): ColorObjType {
+    return this._colorObj;
   }
 
-  getRgbObj (): RgbObject {
-    return this._rgbObj
+  getRgbObj(): RgbObject {
+    return this._rgbObj;
   }
 
-  setInput (colorInput: string): void {
-    this._colorInput = colorInput
+  setInput(colorInput: string): void {
+    this._colorInput = colorInput;
   }
 
-  setColorObj (colorObj: ColorObjType): void {
-    this._colorObj = colorObj
+  setColorObj(colorObj: ColorObjType): void {
+    this._colorObj = colorObj;
   }
 
-  setRbgObj (rgbObj: RgbObject): void {
-    this._rgbObj = rgbObj
+  setRbgObj(rgbObj: RgbObject): void {
+    this._rgbObj = rgbObj;
   }
 
-  setColor (color: string): void {
-    this.setInput(color)
-    this.setColorObj(inputParser(this.getInput()))
-    this.setRbgObj(toRgbBase(this.getColorObj()))
+  setColor(color: string): void {
+    this.setInput(color);
+    this.setColorObj(inputParser(this.getInput()));
+    this.setRbgObj(toRgbBase(this.getColorObj()));
   }
 
   /**
@@ -77,8 +86,8 @@ class ColorConvertor {
    * const color = new ColorConvertor('red')
    * color.toRgb() // { r: 255, g: 0, b: 0 }
    */
-  toRgb (): RgbObject {
-    return rgbNormalizedToRgb(this.getRgbObj())
+  toRgb(): RgbObject {
+    return rgbNormalizedToRgb(this.getRgbObj());
   }
 
   /**
@@ -89,9 +98,9 @@ class ColorConvertor {
    * const color = new ColorConvertor('red')
    * color.toRgbString() // "rgb(255, 0, 0)"
    */
-  toRgbString (): string {
-    const { r, g, b, a } = this.toRgb()
-    return `${a !== undefined ? 'rgba' : 'rgb'}(${r}, ${g}, ${b}${a !== undefined ? `, ${a}` : ''})`
+  toRgbString(): string {
+    const { r, g, b, a } = this.toRgb();
+    return `${a !== undefined ? "rgba" : "rgb"}(${r}, ${g}, ${b}${a !== undefined ? `, ${a}` : ""})`;
   }
 
   /**
@@ -102,18 +111,18 @@ class ColorConvertor {
    * const color = new ColorConvertor('red')
    * color.isValid() // true
    */
-  isValid (): boolean {
-    return this.getColorObj().value !== undefined
+  isValid(): boolean {
+    return this.getColorObj().value !== undefined;
   }
 
   // TODO implement
-  fromRatio (): string {
-    return 'not implemented'
+  fromRatio(): string {
+    return "not implemented";
   }
 
   // TODO implement
-  fromPercentageRgb (): string {
-    return 'not implemented'
+  fromPercentageRgb(): string {
+    return "not implemented";
   }
 
   /**
@@ -124,8 +133,8 @@ class ColorConvertor {
    * const color = new ColorConvertor('red')
    * color.toHsv() // { h: 0, s: 100, v: 100 }
    */
-  toHsv (): HsvObject {
-    return rgbNormalizedToHsv(this.getRgbObj())
+  toHsv(): HsvObject {
+    return rgbNormalizedToHsv(this.getRgbObj());
   }
 
   /**
@@ -136,9 +145,9 @@ class ColorConvertor {
    * const color = new ColorConvertor('red')
    * color.toHsvString() // "hsv(0, 100%, 100%)"
    */
-  toHsvString (): string {
-    const { h, s, v } = this.toHsv()
-    return `hsv(${h}, ${s}%, ${v}%)`
+  toHsvString(): string {
+    const { h, s, v } = this.toHsv();
+    return `hsv(${h}, ${s}%, ${v}%)`;
   }
 
   /**
@@ -149,21 +158,21 @@ class ColorConvertor {
    * const color = new ColorConvertor('red')
    * color.toHsl() // { h: 0, s: 100, l: 50 }
    */
-  toHsl (): HslObject {
-    return rgbNormalizedToHsl(this.getRgbObj())
+  toHsl(): HslObject {
+    return rgbNormalizedToHsl(this.getRgbObj());
   }
 
   /**
-     * Converts the current color to HSL as a string
-     * @returns {string} - HSL values as a string
-     * @memberof ColorConvertor
-     * @example
-     * const color = new ColorConvertor('red')
-     * color.toHslString() // "hsl(0, 100%, 50%)"
-     */
-  toHslString (): string {
-    const { h, s, l } = rgbNormalizedToHsl(this.getRgbObj())
-    return `hsl(${h}, ${s}%, ${l}%)`
+   * Converts the current color to HSL as a string
+   * @returns {string} - HSL values as a string
+   * @memberof ColorConvertor
+   * @example
+   * const color = new ColorConvertor('red')
+   * color.toHslString() // "hsl(0, 100%, 50%)"
+   */
+  toHslString(): string {
+    const { h, s, l } = rgbNormalizedToHsl(this.getRgbObj());
+    return `hsl(${h}, ${s}%, ${l}%)`;
   }
 
   /**
@@ -174,46 +183,46 @@ class ColorConvertor {
    * const color = new ColorConvertor('red')
    * color.toHex() // "ff0000"
    */
-  toHex (): string {
-    return rgbToHex(rgbNormalizedToRgb(this.getRgbObj())) ?? ''
+  toHex(): string {
+    return rgbToHex(rgbNormalizedToRgb(this.getRgbObj())) ?? "";
   }
 
   /**
-     * Converts the current color to Hex as a string
-     * @returns {string} - Hex value as a string
-     * @memberof ColorConvertor
-     * @example
-     * const color = new ColorConvertor('red')
-     * color.toHex() // "#ff0000"
-     */
-  toHexString (): string {
-    return `#${this.toHex()}`
-  }
-
-  /**
-     * Converts the current color to Hex8
-     * @returns {string} - Hex8 value
-     * @memberof ColorConvertor
-     * @example
-     * const color = new ColorConvertor('red')
-     * color.toHex8() // "ff0000ff"
-     */
-  toHex8 (): string {
-    const { r, g, b } = rgbNormalizedToRgb(this.getRgbObj())
-    const a = this.getAlpha()
-    return rgbaToHex8({ r, g, b, a })
-  }
-
-  /**
-     * Converts the current color to Hex8 as a string
-     * @returns {string} - Hex8 value as a string
-     * @memberof ColorConvertor
-     * @example
-     * const color = new ColorConvertor('red')
-     * color.toHex8String() // "#ff0000ff"
+   * Converts the current color to Hex as a string
+   * @returns {string} - Hex value as a string
+   * @memberof ColorConvertor
+   * @example
+   * const color = new ColorConvertor('red')
+   * color.toHex() // "#ff0000"
    */
-  toHex8String (): string {
-    return `#${this.toHex8()}`
+  toHexString(): string {
+    return `#${this.toHex()}`;
+  }
+
+  /**
+   * Converts the current color to Hex8
+   * @returns {string} - Hex8 value
+   * @memberof ColorConvertor
+   * @example
+   * const color = new ColorConvertor('red')
+   * color.toHex8() // "ff0000ff"
+   */
+  toHex8(): string {
+    const { r, g, b } = rgbNormalizedToRgb(this.getRgbObj());
+    const a = this.getAlpha();
+    return rgbaToHex8({ r, g, b, a });
+  }
+
+  /**
+   * Converts the current color to Hex8 as a string
+   * @returns {string} - Hex8 value as a string
+   * @memberof ColorConvertor
+   * @example
+   * const color = new ColorConvertor('red')
+   * color.toHex8String() // "#ff0000ff"
+   */
+  toHex8String(): string {
+    return `#${this.toHex8()}`;
   }
 
   /**
@@ -224,8 +233,8 @@ class ColorConvertor {
    * const color = new ColorConvertor('red')
    * color.toCmy() // { c: 0, m: 100, y: 100 }
    */
-  toCmy (): CmykObject {
-    return rgbNormalizedToCmy(this.getRgbObj())
+  toCmy(): CmykObject {
+    return rgbNormalizedToCmy(this.getRgbObj());
   }
 
   /** Converts the current color to CMYK
@@ -235,8 +244,8 @@ class ColorConvertor {
    * const color = new ColorConvertor('red')
    * color.toCmyk() // { c: 0, m: 100, y: 100, k: 0 }
    */
-  toCmyk (): CmykObject {
-    return cmyToCmyk(this.toCmy())
+  toCmyk(): CmykObject {
+    return cmyToCmyk(this.toCmy());
   }
 
   /*
@@ -254,8 +263,8 @@ class ColorConvertor {
    * const color = new ColorConvertor('red')
    * color.toXyz() // { x: 41.24, y: 21.26, z: 1.93 }
    */
-  toXyz (): XyzObject {
-    return rgbToXyz(this.getRgbObj())
+  toXyz(): XyzObject {
+    return rgbToXyz(this.getRgbObj());
   }
 
   /**
@@ -266,9 +275,9 @@ class ColorConvertor {
    * const color = new ColorConvertor('red')
    * color.toXyzString() // "xyz(41.24, 21.26, 1.93)"
    */
-  toXyzString (): string {
-    const { x, y, z } = this.toXyz()
-    return `xyz(${x}, ${y}, ${z})`
+  toXyzString(): string {
+    const { x, y, z } = this.toXyz();
+    return `xyz(${x}, ${y}, ${z})`;
   }
 
   /**
@@ -279,8 +288,8 @@ class ColorConvertor {
    * const color = new ColorConvertor('red')
    * color.toLab() // { l: 53.24, a: 80.09, b: 67.20 }
    */
-  toLab (): LabObject {
-    return xyzToLab(this.toXyz())
+  toLab(): LabObject {
+    return xyzToLab(this.toXyz());
   }
 
   /**
@@ -291,9 +300,9 @@ class ColorConvertor {
    * const color = new ColorConvertor('red')
    * color.toLabString() // "lab(53.24, 80.09, 67.20)"
    */
-  toLabString (): string {
-    const { l, a, b } = this.toLab()
-    return `lab(${l}, ${a}, ${b})`
+  toLabString(): string {
+    const { l, a, b } = this.toLab();
+    return `lab(${l}, ${a}, ${b})`;
   }
 
   /**
@@ -304,8 +313,8 @@ class ColorConvertor {
    * const color = new ColorConvertor('red')
    * color.toLch() // { l: 53.24, c: 104.55, h: 40.85 }
    */
-  toLch (): LchObject {
-    return labToLch(this.toLab())
+  toLch(): LchObject {
+    return labToLch(this.toLab());
   }
 
   /**
@@ -316,9 +325,9 @@ class ColorConvertor {
    * const color = new ColorConvertor('red')
    * color.toLchString() // "lch(53.24, 104.55, 40.85)"
    */
-  toLchString (): string {
-    const { l, c, h } = this.toLch()
-    return `lch(${l}, ${c}, ${h})`
+  toLchString(): string {
+    const { l, c, h } = this.toLch();
+    return `lch(${l}, ${c}, ${h})`;
   }
 
   /**
@@ -329,20 +338,20 @@ class ColorConvertor {
    * const color = new ColorConvertor('red')
    * color.getBrightness() // 76.245
    */
-  getBrightness (): number {
-    return calculateBrightness(rgbNormalizedToRgb(this.getRgbObj()))
+  getBrightness(): number {
+    return calculateBrightness(rgbNormalizedToRgb(this.getRgbObj()));
   }
 
   /**
-     * Returns the luminance of the current color
-     * @returns {number} - Luminance value
-     * @memberof ColorConvertor
-     * @example
-     * const color = new ColorConvertor('red')
-     * color.getLuminance() // 0.2126
-     */
-  getLuminance (): number {
-    return calculateLuminance(this.getRgbObj())
+   * Returns the luminance of the current color
+   * @returns {number} - Luminance value
+   * @memberof ColorConvertor
+   * @example
+   * const color = new ColorConvertor('red')
+   * color.getLuminance() // 0.2126
+   */
+  getLuminance(): number {
+    return calculateLuminance(this.getRgbObj());
   }
 
   /**
@@ -353,32 +362,32 @@ class ColorConvertor {
    * const color = new ColorConvertor('red')
    * color.isDark() // true
    */
-  isDark (): boolean {
-    return this.getBrightness() < 128
+  isDark(): boolean {
+    return this.getBrightness() < 128;
   }
 
   /**
-     * Returns true if the current color is light
-     * @returns {boolean} - true if the current color is light
-     * @memberof ColorConvertor
-     * @example
-     * const color = new ColorConvertor('red')
-     * color.isLight() // false
-     */
-  isLight (): boolean {
-    return this.getBrightness() >= 128
+   * Returns true if the current color is light
+   * @returns {boolean} - true if the current color is light
+   * @memberof ColorConvertor
+   * @example
+   * const color = new ColorConvertor('red')
+   * color.isLight() // false
+   */
+  isLight(): boolean {
+    return this.getBrightness() >= 128;
   }
 
   /**
-     * Returns the format of the current color
-     * @returns {string} - Color format
-     * @memberof ColorConvertor
-     * @example
-     * const color = new ColorConvertor('#ff0000')
-     * color.getFormat() // "hex"
-     */
-  getFormat (): string | undefined {
-    return this.getColorObj().format
+   * Returns the format of the current color
+   * @returns {string} - Color format
+   * @memberof ColorConvertor
+   * @example
+   * const color = new ColorConvertor('#ff0000')
+   * color.getFormat() // "hex"
+   */
+  getFormat(): string | undefined {
+    return this.getColorObj().format;
   }
 
   /**
@@ -389,62 +398,62 @@ class ColorConvertor {
    * const color = new ColorConvertor('red')
    * color.getAlpha() // 1
    */
-  getAlpha (): number | undefined {
-    let { a } = this.getRgbObj()
-    a = a ?? 1 // 100% alpha if working with rgb values
-    return a
+  getAlpha(): number | undefined {
+    let { a } = this.getRgbObj();
+    a = a ?? 1; // 100% alpha if working with rgb values
+    return a;
   }
 
   /**
-     * Sets the alpha value of the current color
-     * @param {number} newAlpha - Alpha value
-     * @returns {void}
-     * @memberof ColorConvertor
-     * @example
-     * const color = new ColorConvertor('red')
-     * color.setAlpha(0.5)
-     * color.getAlpha() // 0.5
-     */
-  setAlpha (newAlpha: number): void {
+   * Sets the alpha value of the current color
+   * @param {number} newAlpha - Alpha value
+   * @returns {void}
+   * @memberof ColorConvertor
+   * @example
+   * const color = new ColorConvertor('red')
+   * color.setAlpha(0.5)
+   * color.getAlpha() // 0.5
+   */
+  setAlpha(newAlpha: number): void {
     if (newAlpha < 0 || newAlpha > 1) {
-      throw new Error('Alpha value must be between 0 and 1')
+      throw new Error("Alpha value must be between 0 and 1");
     }
-    const { r, g, b } = this.getRgbObj()
-    const a = newAlpha
-    this.setRbgObj({ r, g, b, a })
+    const { r, g, b } = this.getRgbObj();
+    const a = newAlpha;
+    this.setRbgObj({ r, g, b, a });
   }
 
   /**
-     * Returns a matching named CSS color if one exists
-     * @returns {string} - color name
-     * @memberof ColorConvertor
-     * @link https://www.w3.org/TR/css-color-4/#named-colors
-     * @example
-     * const color = new ColorConvertor("hsl(0, 100%, 50%)")
-     * color.toName() // "red"
-     */
-  toName (): string | undefined {
-    const hex = truncateHex(this.toHex())
+   * Returns a matching named CSS color if one exists
+   * @returns {string} - color name
+   * @memberof ColorConvertor
+   * @link https://www.w3.org/TR/css-color-4/#named-colors
+   * @example
+   * const color = new ColorConvertor("hsl(0, 100%, 50%)")
+   * color.toName() // "red"
+   */
+  toName(): string | undefined {
+    const hex = truncateHex(this.toHex());
     for (const color in namedColors) {
       if (namedColors[color] === hex) {
-        return color
+        return color;
       }
     }
-    return undefined
+    return undefined;
   }
 
   /**
-     * Returns the closest named CSS color
-     * @returns {string} - color name
-     * @memberof ColorConvertor
-     * @link https://www.w3.org/TR/css-color-4/#named-colors
-     * @example
-     * const color = new ColorConvertor("hsl(0, 92%, 48%)")
-     * color.toNearestNamedColor() // "red"
-     */
-  toNearestNamedColor (): string {
-    const rgb = rgbNormalizedToRgb(this.getRgbObj())
-    return findClosestColor(rgb, namedColorsRgb)
+   * Returns the closest named CSS color
+   * @returns {string} - color name
+   * @memberof ColorConvertor
+   * @link https://www.w3.org/TR/css-color-4/#named-colors
+   * @example
+   * const color = new ColorConvertor("hsl(0, 92%, 48%)")
+   * color.toNearestNamedColor() // "red"
+   */
+  toNearestNamedColor(): string {
+    const rgb = rgbNormalizedToRgb(this.getRgbObj());
+    return findClosestColor(rgb, namedColorsRgb);
   }
 
   /**
@@ -455,13 +464,13 @@ class ColorConvertor {
    * const color = new ColorConvertor('red')
    * color.toPercentageRgb() // { r: 100, g: 0, b: 0 }
    */
-  toPercentageRgb (): RgbObject {
-    const { r, g, b } = this.getRgbObj()
+  toPercentageRgb(): RgbObject {
+    const { r, g, b } = this.getRgbObj();
     return {
       r: r !== undefined ? r * 100 : undefined,
       g: g !== undefined ? g * 100 : undefined,
-      b: b !== undefined ? b * 100 : undefined
-    }
+      b: b !== undefined ? b * 100 : undefined,
+    };
   }
 
   /**
@@ -472,9 +481,9 @@ class ColorConvertor {
    * const color = new ColorConvertor('red')
    * color.toPercentageRgbString() // "rgb(100%, 0%, 0%)"
    */
-  toPercentageRgbString (): string {
-    const { r, g, b } = this.toPercentageRgb()
-    return `rgb(${r}%, ${g}%, ${b}%)`
+  toPercentageRgbString(): string {
+    const { r, g, b } = this.toPercentageRgb();
+    return `rgb(${r}%, ${g}%, ${b}%)`;
   }
 
   /**
@@ -487,26 +496,26 @@ class ColorConvertor {
    * color.equals("#ff0000") // true
    * color.equals("hsl(0, 100%, 50%)") // true
    */
-  equals (color2: string): boolean {
-    return this.toRgbString() === new ColorConvertor(color2).toRgbString()
+  equals(color2: string): boolean {
+    return this.toRgbString() === new ColorConvertor(color2).toRgbString();
   }
 
   /**
-     * Returns a random color in sRGB color space
-     * @returns {void}
-     * @memberof ColorConvertor
-     * @remarks Will overwrite the current color
-     */
-  random (): void {
+   * Returns a random color in sRGB color space
+   * @returns {void}
+   * @memberof ColorConvertor
+   * @remarks Will overwrite the current color
+   */
+  random(): void {
     this.setColorObj({
-      format: 'rgb',
+      format: "rgb",
       value: {
         r: Math.floor(Math.random() * 256),
         g: Math.floor(Math.random() * 256),
-        b: Math.floor(Math.random() * 256)
-      }
-    })
-    this.setRbgObj(toRgbBase(this.getColorObj()))
+        b: Math.floor(Math.random() * 256),
+      },
+    });
+    this.setRbgObj(toRgbBase(this.getColorObj()));
   }
 
   /**
@@ -518,8 +527,8 @@ class ColorConvertor {
    * const color2 = color.clone()
    * color2.toRgbString() // "rgb(255, 0, 0)"
    */
-  clone (): ColorConvertor {
-    return new ColorConvertor(this.getInput())
+  clone(): ColorConvertor {
+    return new ColorConvertor(this.getInput());
   }
 
   /**
@@ -529,10 +538,10 @@ class ColorConvertor {
    * @memberof ColorConvertor
    * @link http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
    */
-  readability (color2: string): number {
-    const l1: number = this.getLuminance()
-    const l2: number = new ColorConvertor(color2).getLuminance()
-    return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05)
+  readability(color2: string): number {
+    const l1: number = this.getLuminance();
+    const l2: number = new ColorConvertor(color2).getLuminance();
+    return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
   }
 
   /**
@@ -546,21 +555,21 @@ class ColorConvertor {
    * color.isReadable("#ffffff")
    * // { AA: { large: true, normal: true, small: true }, AAA: { large: true, normal: true, small: true } }
    */
-  isReadable (color2: string): Record<string, Record<string, boolean>> {
-    const readability = this.readability(color2)
+  isReadable(color2: string): Record<string, Record<string, boolean>> {
+    const readability = this.readability(color2);
     return {
       AA: {
         large: readability >= 3,
         normal: readability >= 4.5,
-        small: readability >= 7
+        small: readability >= 7,
       },
       AAA: {
         large: readability >= 4.5,
         normal: readability >= 7,
-        small: readability >= 7
-      }
-    }
+        small: readability >= 7,
+      },
+    };
   }
 }
 
-export default ColorConvertor
+export default ColorConvertor;

@@ -40,6 +40,7 @@ export interface LchObject {
   l: number
   c: number
   h: number
+  alpha?: number
 }
 
 export interface CmykObject {
