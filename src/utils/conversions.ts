@@ -13,7 +13,7 @@ import {
   type RgbObject,
   type XyzObject
 } from '../types'
-import { convertDecimalToHex, expandHex, inverseMatrix } from './utilities'
+import { convertDecimalToHex, expandHex } from './utilities'
 
 const referenceWhiteConstants = {
   x: 95.047,
@@ -37,6 +37,16 @@ export function toRgbBase (colorObj: ColorObjType): RgbObject {
   }
   if (colorObj.format === 'hsv') {
     return hsvToRgbNormalized(colorObj.value as HsvObject)
+  }
+  if (colorObj.format === 'lch') {
+    const lab = lchToLab(colorObj.value as LchObject)
+    const xyz = labToXyz(lab)
+    return xyzToRgbNormalized(xyz)
+  }
+  if (colorObj.format === 'oklch') {
+    const oklab = lchToLab(colorObj.value as LchObject)
+    const lRGB = okLabToLinearRbg(oklab)
+    return lRgbToNormalizedRgb(lRGB)
   }
 
   return {
@@ -435,7 +445,7 @@ export function xyzToRgbNormalized (xyz: XyzObject): RgbObject {
   }
 }
 
-export function rgbToXyz (rgb: RgbObject): XyzObject { // TODO work with normalised figures, round to sRGB
+export function rgbToXyz (rgb: RgbObject): XyzObject {
   let { r, g, b } = rgb
 
   if (r === undefined || g === undefined || b === undefined) {
@@ -478,16 +488,26 @@ const M2 = [
   [0.0259040371, 0.7827717662, -0.8086757660]
 ]
 
-export function xyzToOklab (xyz: XyzObject): LabObject {
-  const { x, y, z } = xyz
+const invM1 = [
+  [1.2270138511035211, -0.5577999806518222, 0.28125614896646783],
+  [-0.04058017842328059, 1.1122568696168302, -0.07167667866560119],
+  [-0.0763812845057069, -0.4214819784180127, 1.586163220440795]
+]
 
-  if (x === undefined || y === undefined || z === undefined) {
+const invM2 = [
+  [0.9999999984505199, 0.3963377921737679, 0.21580375806075883],
+  [1.0000000088817609, -0.10556134232365635, -0.0638541747717059],
+  [1.000000054672411, -0.08948418209496577, -1.291485537864092]
+]
+
+export function xyzToOklab (xyz: XyzObject): LabObject {
+  if (xyz.x === undefined || xyz.y === undefined || xyz.z === undefined) {
     throw new Error('XYZ values must be defined')
   }
 
-  const L = Math.cbrt(x * M1[0][0] + y * M1[0][1] - z * M1[0][2])
-  const M = Math.cbrt(x * M1[1][0] + y * M1[1][1] + z * M1[1][2])
-  const S = Math.cbrt(x * M1[2][0] + y * M1[2][1] + z * M1[2][2])
+  const L = Math.cbrt(xyz.x * M1[0][0] + xyz.y * M1[0][1] + xyz.z * M1[0][2])
+  const M = Math.cbrt(xyz.x * M1[1][0] + xyz.y * M1[1][1] + xyz.z * M1[1][2])
+  const S = Math.cbrt(xyz.x * M1[2][0] + xyz.y * M1[2][1] + xyz.z * M1[2][2])
 
   return {
     l: M2[0][0] * L + M2[0][1] * M + M2[0][2] * S,
@@ -496,23 +516,48 @@ export function xyzToOklab (xyz: XyzObject): LabObject {
   }
 }
 
+// TODO giving largely inflated numbers
 export function okLabToXyz (oklab: LabObject): XyzObject {
-  const { l, a, b } = oklab
-
-  if (l === undefined || a === undefined || b === undefined) {
+  if (oklab.l === undefined || oklab.a === undefined || oklab.b === undefined) {
     throw new Error('OKLAB values must be defined')
   }
 
-  const invM1 = inverseMatrix(M1)
-  const invM2 = inverseMatrix(M2)
-
-  const L = Math.pow(l * invM2[0][0] + a * invM2[0][1] - b * invM2[0][2], 3)
-  const M = Math.pow(l * invM2[1][0] + a * invM2[1][1] + b * invM2[1][2], 3)
-  const S = Math.pow(l * invM2[2][0] + a * invM2[2][1] + b * invM2[2][2], 3)
+  const L = Math.pow(oklab.l * invM2[0][0] + oklab.a * invM2[0][1] + oklab.b * invM2[0][2], 3)
+  const M = Math.pow(oklab.l * invM2[1][0] + oklab.a * invM2[1][1] + oklab.b * invM2[1][2], 3)
+  const S = Math.pow(oklab.l * invM2[2][0] + oklab.a * invM2[2][1] + oklab.b * invM2[2][2], 3)
 
   return {
     x: L * invM1[0][0] + M * invM1[0][1] + S * invM1[0][2],
     y: L * invM1[1][0] + M * invM1[1][1] + S * invM1[1][2],
     z: L * invM1[2][0] + M * invM1[2][1] + S * invM1[2][2]
+  }
+}
+
+export function okLabToLinearRbg (oklab: LabObject): RgbObject {
+  let L = (oklab.l / 100) + 0.3963377774 * oklab.a + 0.2158037573 * oklab.b
+  let M = (oklab.l / 100) - 0.1055613458 * oklab.a - 0.0638541728 * oklab.b
+  let S = (oklab.l / 100) - 0.0894841775 * oklab.a - 1.2914855480 * oklab.b
+
+  L = L * L * L
+  M = M * M * M
+  S = S * S * S
+
+  return {
+    r: 4.0767416621 * L - 3.3077115913 * M + 0.2309699292 * S,
+    g: -1.2684380046 * L + 2.6097574011 * M - 0.3413193965 * S,
+    b: -0.0041960863 * L - 0.7034186147 * M + 1.7076147010 * S
+  }
+}
+
+export function lRgbToNormalizedRgb (lRgb: RgbObject): RgbObject {
+  const fn = (c = 0): number => {
+    const abs = Math.abs(c)
+    return abs > 0.0031308 ? 1.055 * Math.pow(abs, 1 / 2.4) - 0.055 : 12.92 * abs
+  }
+
+  return {
+    r: fn(lRgb.r),
+    g: fn(lRgb.g),
+    b: fn(lRgb.b)
   }
 }

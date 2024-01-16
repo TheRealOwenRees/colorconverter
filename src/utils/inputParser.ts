@@ -122,6 +122,36 @@ export function inputParser (color: string | undefined): ColorObjType {
         }
       }
     }
+
+    // LCH
+    if (/^lch/.test(color)) {
+      const lchArray = color.match(/\d+(\.\d+)?%?/g)
+      if ((lchArray != null) && lchArray.length === 3) {
+        return {
+          format: 'lch',
+          value: {
+            l: Number(lchArray[0].replace('%', '')),
+            c: Number(lchArray[1]),
+            h: Number(lchArray[2])
+          }
+        }
+      }
+    }
+
+    // OKLCH
+    if (/^oklch/.test(color)) {
+      const oklchArray = color.match(/\d+(\.\d+)?%?/g)
+      if ((oklchArray != null) && oklchArray.length === 3) {
+        return {
+          format: 'oklch',
+          value: {
+            l: Number(oklchArray[0].replace('%', '')),
+            c: Number(oklchArray[1]),
+            h: Number(oklchArray[2])
+          }
+        }
+      }
+    }
   }
 
   return {

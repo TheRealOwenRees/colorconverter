@@ -534,6 +534,33 @@ class ColorConvertor {
     const l2: number = new ColorConvertor(color2).getLuminance()
     return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05)
   }
+
+  /**
+   * Returns whether WCAG2 guidelines say that the current color is readable on the color passed as an argument
+   * @param color2 - The color to compare the current color to
+   * @returns {Record<string, Record<string, boolean>>} - Object containing the results of the readability tests
+   * @memberof ColorConvertor
+   * @link http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
+   * @example
+   * const color = new ColorConvertor("red")
+   * color.isReadable("#ffffff")
+   * // { AA: { large: true, normal: true, small: true }, AAA: { large: true, normal: true, small: true } }
+   */
+  isReadable (color2: string): Record<string, Record<string, boolean>> {
+    const readability = this.readability(color2)
+    return {
+      AA: {
+        large: readability >= 3,
+        normal: readability >= 4.5,
+        small: readability >= 7
+      },
+      AAA: {
+        large: readability >= 4.5,
+        normal: readability >= 7,
+        small: readability >= 7
+      }
+    }
+  }
 }
 
 export default ColorConvertor

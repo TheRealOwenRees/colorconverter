@@ -1,6 +1,6 @@
 export interface ColorObjType {
   format: string | undefined
-  value: RgbObject | HslObject | HsvObject | string | undefined
+  value: RgbObject | HslObject | HsvObject | LchObject | string | undefined
 }
 
 export interface RgbObject {

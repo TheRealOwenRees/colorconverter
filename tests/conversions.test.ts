@@ -87,7 +87,7 @@ describe('color conversions', () => {
       z: expect.closeTo(5.2356, 1)
     })
   })
-  it('XYZ -> RGB%', () => {
+  it('XYZ -> RGB', () => {
     expect(xyzToRgbNormalized({ x: 20.276, y: 22.449, z: 5.2356 })).toMatchObject({
       r: expect.closeTo(0.57102, 2),
       g: expect.closeTo(0.51355, 2),
@@ -104,11 +104,46 @@ describe('OKLAB', () => {
       b: expect.closeTo(-0.019, 3)
     })
   })
-  it('OKLAB -> XYZ', () => {
-    expect(okLabToXyz({ l: 1, a: 0, b: 0 })).toMatchObject({
+  it('OKLAB -> XYZ 1', () => {
+    expect(okLabToXyz(
+      { l: 1, a: 0, b: 0 })).toMatchObject({
       x: expect.closeTo(0.950, 2),
       y: expect.closeTo(1.0, 2),
       z: expect.closeTo(1.089, 2)
+    })
+  })
+  it('OKLAB -> XYZ 2', () => {
+    expect(okLabToXyz(
+      { l: 0.45, a: 1.236, b: -0.019 })).toMatchObject({
+      x: expect.closeTo(1.0, 2),
+      y: expect.closeTo(0.0, 2),
+      z: expect.closeTo(0.0, 2)
+    })
+  })
+  it('OKLAB -> XYZ 3', () => {
+    expect(okLabToXyz(
+      { l: 0.922, a: -0.671, b: 0.263 })).toMatchObject({
+      x: expect.closeTo(0.0, 2),
+      y: expect.closeTo(1.0, 2),
+      z: expect.closeTo(0.0, 2)
+    })
+  })
+  it('OKLAB -> XYZ 4', () => {
+    expect(okLabToXyz(
+      { l: 0.153, a: -1.415, b: -0.449 })).toMatchObject({
+      x: expect.closeTo(0.0, 2),
+      y: expect.closeTo(0.0, 2),
+      z: expect.closeTo(1.0, 2)
+    })
+  })
+})
+
+describe('OKLCH', () => {
+  it('OKLCH -> OKLAB', () => {
+    expect(lchToLab({ l: 70, c: 0.1, h: 70 })).toMatchObject({
+      l: expect.closeTo(70.0, 1),
+      a: expect.closeTo(0.03, 1),
+      b: expect.closeTo(0.09, 1)
     })
   })
 })
