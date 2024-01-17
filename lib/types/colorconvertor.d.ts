@@ -12,6 +12,15 @@ declare class ColorConvertor {
     setRbgObj(rgbObj: RgbObject): void;
     setColor(color: string): void;
     /**
+     * Checks if the parsed color is valid
+     * @returns {boolean} - true if the parsed color is valid
+     * @memberof ColorConvertor
+     * @example
+     * const color = new ColorConvertor('red')
+     * color.isValid() // true
+     */
+    isValid(): boolean;
+    /**
      * Returns the RGB values in the range 0-255
      * @returns {RgbObject} - RGB values object
      * @memberof ColorConvertor
@@ -29,15 +38,8 @@ declare class ColorConvertor {
      * color.toRgbString() // "rgb(255, 0, 0)"
      */
     toRgbString(): string;
-    /**
-     * Checks if the parsed color is valid
-     * @returns {boolean} - true if the parsed color is valid
-     * @memberof ColorConvertor
-     * @example
-     * const color = new ColorConvertor('red')
-     * color.isValid() // true
-     */
-    isValid(): boolean;
+    toNormalizedRgb(): RgbObject;
+    toNormalizedRgbString(): string;
     fromRatio(): string;
     fromPercentageRgb(): string;
     /**
@@ -336,4 +338,3 @@ declare class ColorConvertor {
     isReadable(color2: string): Record<string, Record<string, boolean>>;
 }
 export default ColorConvertor;
-//# sourceMappingURL=colorconvertor.d.ts.map

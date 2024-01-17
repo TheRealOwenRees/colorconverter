@@ -23,4 +23,3 @@ export declare function xyzToOklab(xyz: XyzObject): LabObject;
 export declare function okLabToXyz(oklab: LabObject): XyzObject;
 export declare function okLabToLinearRbg(oklab: LabObject): RgbObject;
 export declare function lRgbToNormalizedRgb(lRgb: RgbObject): RgbObject;
-//# sourceMappingURL=conversions.d.ts.map

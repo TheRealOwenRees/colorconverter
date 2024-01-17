@@ -42,4 +42,3 @@ export interface CmykObject {
     y: number;
     k?: number;
 }
-//# sourceMappingURL=types.d.ts.map

@@ -9,7 +9,7 @@
     "require": "./lib/cjs/colorconvertor.js",
     "import": "./lib/esm/colorconvertor.js"
   },
-  "types": "/lib/types/index.d.ts",
+  "types": "/lib/types/colorconvertor.d.ts",
   "scripts": {
     "build": "npm run removeBuild && npm run build:esm && npm run build:cjs && tsc --project tsconfig-build.json && npm run rollup",
     "removeBuild": "rm -rf lib/esm && rm -rf lib/cjs && rm -rf lib/types",
@@ -28,6 +28,7 @@
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.6",
     "@types/jest": "^29.5.11",
     "@types/node": "^20.10.7",
     "@typescript-eslint/eslint-plugin": "^6.4.0",
@@ -43,6 +44,7 @@
     "rollup": "^4.9.4",
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.2",
+    "tslib": "^2.6.2",
     "typedoc": "^0.25.7",
     "typescript": "^5.3.3"
   }

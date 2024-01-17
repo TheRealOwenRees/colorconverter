@@ -38,10 +38,10 @@ describe("color conversions", () => {
     });
   });
   it("rgb undefined -> hsl", () => {
-    expect(
+    expect(() =>
       rgbNormalizedToHsl({ r: undefined, g: undefined, b: undefined }),
-    ).toMatchObject({ h: undefined, s: undefined, l: undefined });
-  }); // TODO throw error
+    ).toThrow("RGB values must be defined");
+  });
   it("hsl -> rgb normalized", () => {
     expect(hslToRgbNormalized({ h: 255, s: 58, l: 30 })).toMatchObject({
       r: expect.closeTo(0.21, 2),

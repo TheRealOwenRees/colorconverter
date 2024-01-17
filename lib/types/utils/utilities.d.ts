@@ -6,4 +6,3 @@ export declare function truncateHex(hex: string): string;
 export declare function expandHex(hex: string): string;
 export declare function labDeltaE(lab1: LabObject, lab2: LabObject): number;
 export declare function findClosestColor(rgb: RgbObject, namedColorsRgb: Record<string, RgbObject>): string;
-//# sourceMappingURL=utilities.d.ts.map

@@ -1,33 +1,40 @@
-import babel from '@rollup/plugin-babel'
-import resolve from '@rollup/plugin-node-resolve'
-import terser from '@rollup/plugin-terser'
+import babel from "@rollup/plugin-babel";
+import resolve from "@rollup/plugin-node-resolve";
+import terser from "@rollup/plugin-terser";
+import typescript from "@rollup/plugin-typescript";
 
-const extensions = ['.js', '.ts']
+const extensions = [".js", ".ts"];
 
 export default {
-  input: 'lib/esm/colorconvertor.js',
+  input: "src/colorconvertor.ts",
   output: [
     {
-      file: 'lib/bundles/bundle.esm.js',
-      format: 'esm',
-      sourcemap: true
+      file: "lib/bundles/color-convertor.esm.js",
+      format: "esm",
+      sourcemap: true,
     },
     {
-      file: 'lib/bundles/bundle.esm.min.js',
-      format: 'esm',
+      file: "lib/bundles/color-convertor.esm.min.js",
+      format: "esm",
       plugins: [terser()],
-      sourcemap: true
+      sourcemap: true,
     },
     {
-      file: 'lib/bundles/bundle.umd.min.js',
-      format: 'umd',
-      name: 'colorconvertor',
+      file: "lib/bundles/color-convertor.umd.min.js",
+      format: "umd",
+      name: "color-convertor",
       plugins: [terser()],
-      sourcemap: true
-    }
+      sourcemap: true,
+    },
   ],
   plugins: [
+    typescript(),
     resolve({ extensions }),
-    babel({ extensions, babelHelpers: 'bundled', include: ['src/**/*.ts'], exclude: ['node_modules/**'] })
-  ]
-}
+    babel({
+      extensions,
+      babelHelpers: "bundled",
+      include: ["src/**/*.ts"],
+      exclude: ["node_modules/**"],
+    }),
+  ],
+};

@@ -6,17 +6,17 @@
 ## Installation
 ### Npm
 ```bash
-npm install color-convertor
+npm install @owenrees/color-convertor
 ```
 
 ### Yarn
 ```bash
-yarn add color-convertor
+yarn add @owenrees/color-convertor
 ```
 
 pnpm
 ```bash
-pnpm add color-convertor
+pnpm add @owenrees/color-convertor
 ```
 
 or download the [latest release]() and include the minified UMD file in your HTML. 
@@ -40,7 +40,7 @@ const color = new ColorConvertor('red');
 ### Import as UMD module
 Add the following script tag to your HTML:
 ```html
-<script src="https://unpkg.com/color-convertor/dist/color-convertor.umd.js"></script>
+<script src="https://unpkg.com/@owenrees/color-convertor/lib/color-convertor.umd.js"></script>
 ```
 
 or point to the file locally:
@@ -343,3 +343,4 @@ color.isReadable('white');
 ```
 
 ## Acknowledgements
+[TinyColor](https://github.com/bgrins/TinyColor) for inspiring this library.
