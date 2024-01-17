@@ -115,20 +115,13 @@ class ColorConvertor {
     return `${a !== undefined ? "rgba" : "rgb"}(${r}, ${g}, ${b}${a !== undefined ? `, ${a}` : ""})`;
   }
 
-  toNormalizedRgb(): string {
-    return "not implemented";
+  toNormalizedRgb(): RgbObject {
+    return this.getRgbObj();
   }
 
   toNormalizedRgbString(): string {
-    return "not implemented";
-  }
-
-  toNormalizedRgba(): string {
-    return "not implemented";
-  }
-
-  toNormalizedRgbaString(): string {
-    return "not implemented";
+    const { r, g, b, a } = this.getRgbObj();
+    return `${a !== undefined ? "rgba" : "rgb"}(${r}, ${g}, ${b}${a !== undefined ? `, ${a}` : ""})`;
   }
 
   // TODO implement
@@ -472,10 +465,6 @@ class ColorConvertor {
     return findClosestColor(rgb, namedColorsRgb);
   }
 
-  toNearestWebSafeColor(): string {
-    return "not implemented";
-  }
-
   /**
    * Returns the RGB values in the range 0-100
    * @returns {RgbObject} - RGB values object
@@ -485,11 +474,12 @@ class ColorConvertor {
    * color.toPercentageRgb() // { r: 100, g: 0, b: 0 }
    */
   toPercentageRgb(): RgbObject {
-    const { r, g, b } = this.getRgbObj();
+    const { r, g, b, a } = this.getRgbObj();
     return {
       r: r !== undefined ? r * 100 : undefined,
       g: g !== undefined ? g * 100 : undefined,
       b: b !== undefined ? b * 100 : undefined,
+      a: a !== undefined ? this.getAlpha() : undefined,
     };
   }
 
@@ -502,8 +492,8 @@ class ColorConvertor {
    * color.toPercentageRgbString() // "rgb(100%, 0%, 0%)"
    */
   toPercentageRgbString(): string {
-    const { r, g, b } = this.toPercentageRgb();
-    return `rgb(${r}%, ${g}%, ${b}%)`;
+    const { r, g, b, a } = this.toPercentageRgb();
+    return `${a !== undefined ? "rgba" : "rgb"}(${r}%, ${g}%, ${b}%${a !== undefined ? `, ${a}` : ""})`;
   }
 
   /**

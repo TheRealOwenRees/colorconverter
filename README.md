@@ -82,16 +82,38 @@ color.toRgbString(); // 'rgb(255, 0, 0)'
 ```
 
 ### toNormalizedRgb
+Returns the RGB / RGBA values of the color as an object, in range 0-1.
+```js
+const color = new ColorConvertor('red');
+color.toNormalizedRgb(); // { r: 1, g: 0, b: 0 }
+```
 
 ### toNormalizedRgbString
-
-### toNormalizedRgba
-
-### toNormalizedRgbaString
+Return a string representation of the normalized RGB / RGBA values.
+```js
+const color = new ColorConvertor('red');
+color.toNormalizedRgbString(); // 'rgb(1, 0, 0)'
+```
 
 ### toPercentageRgb
+Returns the RGB / RGBA values of the color as an object, in range 0-100.
+```js
+const color = new ColorConvertor('red');
+color.toPercentageRgb(); // { r: 100, g: 0, b: 0 }
+
+const color = new ColorConvertor('rgba(255, 0, 0, 0.5)');
+color.toPercentageRgb(); // { r: 100, g: 0, b: 0, a: 0.5 }
+```
 
 ### toPercentageRgbString
+Return a string representation of the percentage RGB / RGBA values.
+```js
+const color = new ColorConvertor('red');
+color.toPercentageRgbString(); // 'rgb(100%, 0%, 0%)'
+
+const color = new ColorConvertor('rgba(255, 0, 0, 0.5)');
+color.toPercentageRgbString(); // 'rgba(100%, 0%, 0%, 0.5)'
+```
 
 ### toHsv
 Returns the HSV values of the color as an object.
@@ -206,18 +228,56 @@ color.toLchString(); // 'lch(53.24, 103.54, 40.85)'
 ```
 
 ### getBrightness
+Returns the perceived brightness of the color, as a number between 0 and 255.
+```js
+const color = new ColorConvertor('red');
+color.getBrightness(); // 76.245
+```
 
 ### getLuminance
+Returns the relative luminance of the color, as a number between 0 and 1.
+```js
+const color = new ColorConvertor('red');
+color.getLuminance(); // 0.2126
+```
 
 ### isDark
+Returns a boolean indicating whether the color is dark.
+```js
+const color = new ColorConvertor('red');
+color.isDark(); // true
+```
 
 ### isLight
+Returns a boolean indicating whether the color is light.
+```js
+const color = new ColorConvertor('red');
+color.isLight(); // false
+```
 
 ### getFormat
+Returns the format of the color.
+```js
+const color = new ColorConvertor('fff000');
+color.getFormat(); // 'hex'
+```
 
 ### getAlpha
+Returns the alpha value of the color, as a number between 0 and 1.
+```js
+const color = new ColorConvertor('rgba(255, 0, 0, 0.5)');
+color.getAlpha(); // 0.5
+```
 
 ### setAlpha
+Sets the alpha value of the color.
+```js
+const color = new ColorConvertor('red');
+console.log(color.getAlpha()); // 1
+
+color.setAlpha(0.5);
+color.toRgbString(); // 'rgba(255, 0, 0, 0.5)'
+```
 
 ### toName
 Returns the name of the current color if it exists as a named CSS colour, or undefined if it doesn't.
@@ -227,17 +287,59 @@ color.toName(); // 'red'
 ```
 
 ### toNearestNamedColor
-
-### toNearestWebSafeColor
+Returns the name of the nearest named CSS colour, or undefined if it doesn't exist.
+```js
+const color = new ColorConvertor('rgb(253, 10, 0)');
+color.toNearestNamedColor(); // 'red'
+```
 
 ### equals
+Returns a boolean indicating whether the color is equal to the supplied color.
+```js
+const color = new ColorConvertor('hsl(0, 100%, 50%)');
+color.equals('red'); // true
+```
 
 ### random
+Returns a random color.
+```js
+const color = ColorConvertor.random();
+color.toRgbString(); // 'rgb(252, 27, 65)'
+```
 
 ### clone
+Returns a clone of the current color instance.
+```js
+const color = new ColorConvertor('red');
+const clone = color.clone();
+
+color.equals(clone); // true
+```
 
 ### readability
+Returns a WCAG readability score for the color, based on the supplied secondary color.
+```js
+const color = new ColorConvertor('red');
+color.readability('white'); // 3.998
+```
 
 ### isReadable
+Returns an object of booleans indicating whether the color is readable against the supplied secondary color.
+```js
+const color = new ColorConvertor('rgb(13, 114, 103)');
+color.isReadable('white');
+// {
+//   AA: {
+//      large: true,
+//      normal: true,
+//      small: false
+//   },
+//   AAA: {
+//      large: true,
+//      normal: false,
+//      small: false
+//   }
+// }
+```
 
 ## Acknowledgements
