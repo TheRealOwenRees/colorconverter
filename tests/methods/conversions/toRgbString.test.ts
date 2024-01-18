@@ -1,4 +1,4 @@
-import ColorConverter from "../../../src/colorConverter";
+import ColorConverter from "../../../src/colorconverter";
 
 describe("to RGB string", () => {
   it("return rgb string when input is rgb string", () => {

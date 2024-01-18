@@ -1,4 +1,4 @@
-import ColorConverter from '../src/colorConverter'
+import ColorConverter from '../src/colorconverter'
 
 describe('color convertor instances', () => {
   it('should return a color convertor instance', () => {

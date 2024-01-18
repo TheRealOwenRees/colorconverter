@@ -1,4 +1,4 @@
-import ColorConverter from "../../../src/colorConverter";
+import ColorConverter from "../../../src/colorconverter";
 
 describe("to percentage rgb string", () => {
   it("get percentage rgb string", () => {

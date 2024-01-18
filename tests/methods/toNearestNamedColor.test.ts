@@ -1,4 +1,4 @@
-import ColorConverter from "../../src/colorConverter";
+import ColorConverter from "../../src/colorconverter";
 
 describe("toNearestNamedColor", () => {
   it("to nearest named color", () => {

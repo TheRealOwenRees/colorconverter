@@ -6,23 +6,23 @@ import typescript from "@rollup/plugin-typescript";
 const extensions = [".js", ".ts"];
 
 export default {
-  input: "src/colorconvertor.ts",
+  input: "src/colorconverter.ts",
   output: [
     {
-      file: "lib/bundles/colorconvertor.esm.js",
+      file: "lib/bundles/colorconverter.esm.js",
       format: "esm",
       sourcemap: true,
     },
     {
-      file: "lib/bundles/colorconvertor.esm.min.js",
+      file: "lib/bundles/colorconverter.esm.min.js",
       format: "esm",
       plugins: [terser()],
       sourcemap: true,
     },
     {
-      file: "lib/bundles/colorconvertor.umd.min.js",
+      file: "lib/bundles/colorconverter.umd.min.js",
       format: "umd",
-      name: "colorconvertor",
+      name: "colorconverter",
       plugins: [terser()],
       sourcemap: true,
     },

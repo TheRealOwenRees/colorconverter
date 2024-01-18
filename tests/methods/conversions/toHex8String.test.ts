@@ -1,4 +1,4 @@
-import ColorConverter from "../../../src/colorConverter";
+import ColorConverter from "../../../src/colorconverter";
 
 describe("toHex8String", () => {
   it("to HEX8 string", () => {

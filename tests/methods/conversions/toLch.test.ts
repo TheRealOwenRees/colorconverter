@@ -1,4 +1,4 @@
-import ColorConverter from "../../../src/colorConverter";
+import ColorConverter from "../../../src/colorconverter";
 
 describe("toLch", () => {
   it("RGB to LCH", () => {

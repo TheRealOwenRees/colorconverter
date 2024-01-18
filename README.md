@@ -6,33 +6,33 @@
 ## Installation
 ### Npm
 ```bash
-npm install @owenrees/color-converter
+npm install @owenrees/colorconverter
 ```
 
 ### Yarn
 ```bash
-yarn add @owenrees/color-converter
+yarn add @owenrees/colorconverter
 ```
 
 pnpm
 ```bash
-pnpm add @owenrees/color-converter
+pnpm add @owenrees/colorconverter
 ```
 
-or download the [latest release]() and include the minified UMD file in your HTML. 
+[//]: # (or download the [latest release]&#40;&#41; and include the minified UMD file in your HTML. )
 
 ## Usage
 
 ### Import as ESM module
 ```js
-import ColorConverter from 'color-converter';
+import ColorConverter from 'colorconverter';
 
 const color = new ColorConverter('red');
 ```
 
 ### Import as CommonJS module
 ```js
-const ColorConverter = require('color-converter');
+const ColorConverter = require('colorconverter');
 
 const color = new ColorConverter('red');
 ```
@@ -40,12 +40,12 @@ const color = new ColorConverter('red');
 ### Import as UMD module
 Add the following script tag to your HTML:
 ```html
-<script src="https://unpkg.com/@owenrees/color-converter/lib/color-converter.umd.js"></script>
+<script src="https://unpkg.com/@owenrees/colorconverter/lib/colorconverter.umd.min.js"></script>
 ```
 
 or point to the file locally:
 ```html
-<script src="path/to/color-converter.umd.js"></script>
+<script src="path/to/colorconverter.umd.min.js"></script>
 ```
 
 Then use the global `ColorConverter` variable:
