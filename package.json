@@ -2,14 +2,13 @@
   "name": "colorconvertor",
   "version": "0.0.1",
   "description": "",
-  "main": "lib/cjs/colorconvertor.js",
-  "type": "module",
-  "module": "lib/esm/colorconvertor.js",
+  "main": "./lib/cjs/colorconvertor.js",
+  "module": "./lib/esm/colorconvertor.js",
   "exports": {
     "require": "./lib/cjs/colorconvertor.js",
     "import": "./lib/esm/colorconvertor.js"
   },
-  "types": "/lib/types/colorconvertor.d.ts",
+  "types": "./lib/types/colorconvertor.d.ts",
   "scripts": {
     "build": "npm run removeBuild && npm run build:esm && npm run build:cjs && tsc --project tsconfig-build.json && npm run rollup",
     "removeBuild": "rm -rf lib/esm && rm -rf lib/cjs && rm -rf lib/types",

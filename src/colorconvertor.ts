@@ -27,12 +27,12 @@ import {
   labToLch,
   rgbToHex,
   rgbaToHex8,
+  findClosestColor,
 } from "./utils/conversions";
 import { inputParser } from "./utils/inputParser";
 import {
   calculateBrightness,
   calculateLuminance,
-  findClosestColor,
   truncateHex,
 } from "./utils/utilities";
 import namedColors, { namedColorsRgb } from "./utils/namedColors";

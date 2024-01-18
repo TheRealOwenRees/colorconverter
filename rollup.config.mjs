@@ -9,20 +9,20 @@ export default {
   input: "src/colorconvertor.ts",
   output: [
     {
-      file: "lib/bundles/color-convertor.esm.js",
+      file: "lib/bundles/colorconvertor.esm.js",
       format: "esm",
       sourcemap: true,
     },
     {
-      file: "lib/bundles/color-convertor.esm.min.js",
+      file: "lib/bundles/colorconvertor.esm.min.js",
       format: "esm",
       plugins: [terser()],
       sourcemap: true,
     },
     {
-      file: "lib/bundles/color-convertor.umd.min.js",
+      file: "lib/bundles/colorconvertor.umd.min.js",
       format: "umd",
-      name: "color-convertor",
+      name: "colorconvertor",
       plugins: [terser()],
       sourcemap: true,
     },

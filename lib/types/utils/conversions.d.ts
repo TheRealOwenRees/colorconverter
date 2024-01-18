@@ -1,4 +1,4 @@
-import { type CmykObject, type ColorObjType, type HslObject, type HsvObject, type LabObject, type LchObject, type RgbObject, type XyzObject } from '../types';
+import { type CmykObject, type ColorObjType, type HslObject, type HsvObject, type LabObject, type LchObject, type RgbObject, type XyzObject } from "../types";
 export declare function toRgbBase(colorObj: ColorObjType): RgbObject;
 export declare function rgbNormalizedToRgb(rgb: RgbObject): RgbObject;
 export declare function rgbNormalizedToRgbPercent(rgb: RgbObject): RgbObject;
@@ -23,3 +23,4 @@ export declare function xyzToOklab(xyz: XyzObject): LabObject;
 export declare function okLabToXyz(oklab: LabObject): XyzObject;
 export declare function okLabToLinearRbg(oklab: LabObject): RgbObject;
 export declare function lRgbToNormalizedRgb(lRgb: RgbObject): RgbObject;
+export declare function findClosestColor(rgb: RgbObject, namedColorsRgb: Record<string, RgbObject>): string;
