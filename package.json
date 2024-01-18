@@ -10,10 +10,11 @@
   },
   "types": "./lib/types/colorconvertor.d.ts",
   "scripts": {
-    "build": "npm run removeBuild && npm run build:esm && npm run build:cjs && tsc --project tsconfig-build.json && npm run rollup",
+    "build": "npm run removeBuild && npm run build:esm && npm run build:cjs && tsc --project tsconfig-build.json && npm run rollup && npm run build:packageJson",
     "removeBuild": "rm -rf lib/esm && rm -rf lib/cjs && rm -rf lib/types",
     "build:esm": "BABEL_ENV=esmUnbundled babel src --extensions \".ts\" --out-dir 'lib/esm' --source-maps",
     "build:cjs": "BABEL_ENV=cjs babel src --extensions \".ts\" --out-dir 'lib/cjs' --source-maps",
+    "build:packageJson": "node scripts/buildPackageJson.js",
     "rollup": "rollup -c",
     "test": "jest"
   },
@@ -32,7 +33,7 @@
     "@types/node": "^20.10.7",
     "@typescript-eslint/eslint-plugin": "^6.4.0",
     "@typescript-eslint/parser": ">=6.0.0",
-    "babel-plugin-add-import-extension": "^1.6.0",
+    "babel-plugin-add-module-exports": "^1.0.4",
     "eslint": "^8.0.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-standard-with-typescript": "^43.0.0",

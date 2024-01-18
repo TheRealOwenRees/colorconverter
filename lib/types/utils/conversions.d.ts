@@ -1,5 +1,6 @@
 import { type CmykObject, type ColorObjType, type HslObject, type HsvObject, type LabObject, type LchObject, type RgbObject, type XyzObject } from "../types";
 export declare function toRgbBase(colorObj: ColorObjType): RgbObject;
+export declare function hexToNormalizedRgb(hexColor: string): RgbObject;
 export declare function rgbNormalizedToRgb(rgb: RgbObject): RgbObject;
 export declare function rgbNormalizedToRgbPercent(rgb: RgbObject): RgbObject;
 export declare function rgbToNormalizedRgb(rgb: RgbObject): RgbObject;

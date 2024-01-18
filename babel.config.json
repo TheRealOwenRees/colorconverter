@@ -2,15 +2,16 @@
   "env": {
     "esmUnbundled": {
       "ignore": ["tests/**/*.ts", "src/types.ts"],
-      "presets": ["@babel/preset-typescript"],
-      "plugins": ["babel-plugin-add-import-extension"]
+      "presets": ["@babel/preset-typescript"]
     },
     "esmBundled":{
       "ignore": ["tests/**/*.ts", "src/types.ts"],
       "presets": [
         "@babel/preset-typescript",
         ["@babel/preset-env", {
-          "targets": "< 0.25%, not dead"
+          "targets": {
+            "node": "20"
+          }
         }]
       ]
     },
@@ -19,9 +20,13 @@
       "presets": [
         "@babel/preset-typescript",
         ["@babel/preset-env", {
+          "targets": {
+            "node": "20"
+          },
           "modules": "commonjs"
           }]
-      ]
+      ],
+      "plugins": ["add-module-exports"]
     }
   }
 }
