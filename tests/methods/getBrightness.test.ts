@@ -1,7 +1,7 @@
-import ColorConvertor from "../../src/colorconvertor";
+import ColorConverter from "../../src/colorConverter";
 
 describe("getBrightness", () => {
   it("get brightness", () => {
-    expect(new ColorConvertor("rgb(255, 255, 255)").getBrightness()).toBe(255);
+    expect(new ColorConverter("rgb(255, 255, 255)").getBrightness()).toBe(255);
   });
 });

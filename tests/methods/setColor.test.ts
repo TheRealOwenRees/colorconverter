@@ -1,8 +1,8 @@
-import ColorConvertor from "../../src/colorconvertor";
+import ColorConverter from "../../src/colorConverter";
 
 describe("setColor", () => {
   it("set color", () => {
-    const colorConvertor = new ColorConvertor();
+    const colorConvertor = new ColorConverter();
     colorConvertor.setColor("rgb(0, 0, 0)");
     expect(colorConvertor.getColorObj()).toMatchObject({
       format: "rgb",
@@ -11,7 +11,7 @@ describe("setColor", () => {
   });
 
   it("overwrite existing color", () => {
-    const colorConvertor = new ColorConvertor("rgb(255, 255, 255)");
+    const colorConvertor = new ColorConverter("rgb(255, 255, 255)");
     colorConvertor.setColor("rgb(0, 0, 0)");
     expect(colorConvertor.getColorObj()).toMatchObject({
       format: "rgb",

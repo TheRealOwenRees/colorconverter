@@ -1,5 +1,5 @@
-import ColorConvertor from "../../src/colorconvertor";
+import ColorConverter from "../../src/colorConverter";
 
 it("is valid", () => {
-  expect(new ColorConvertor("rgb(255, 255, 255)").isValid()).toBe(true);
+  expect(new ColorConverter("rgb(255, 255, 255)").isValid()).toBe(true);
 });

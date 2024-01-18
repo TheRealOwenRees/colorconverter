@@ -1,8 +1,8 @@
-import ColorConvertor from "../../../src/colorconvertor";
+import ColorConverter from "../../../src/colorConverter";
 
 describe("toHex8String", () => {
   it("to HEX8 string", () => {
-    expect(new ColorConvertor("rgb(255, 255, 255)").toHex8String()).toBe(
+    expect(new ColorConverter("rgb(255, 255, 255)").toHex8String()).toBe(
       "#ffffffff",
     );
   });

@@ -1,7 +1,7 @@
-import ColorConvertor from "../../src/colorconvertor";
+import ColorConverter from "../../src/colorConverter";
 
 describe("isDark", () => {
   it("is dark", () => {
-    expect(new ColorConvertor("rgb(255, 255, 255)").isDark()).toBe(false);
+    expect(new ColorConverter("rgb(255, 255, 255)").isDark()).toBe(false);
   });
 });

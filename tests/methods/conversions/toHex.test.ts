@@ -1,7 +1,7 @@
-import ColorConvertor from "../../../src/colorconvertor";
+import ColorConverter from "../../../src/colorConverter";
 
 describe("to HEX", () => {
   it("to HEX", () => {
-    expect(new ColorConvertor("rgb(255, 255, 255)").toHex()).toBe("ffffff");
+    expect(new ColorConverter("rgb(255, 255, 255)").toHex()).toBe("ffffff");
   });
 });

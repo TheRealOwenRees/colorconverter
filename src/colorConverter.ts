@@ -1,5 +1,5 @@
 /*
-    Color Convertor
+    Color Converter
     Owen Rees, MIT License, 2024
 
     based on https://github.com/bgrins/TinyColor
@@ -37,7 +37,7 @@ import {
 } from "./utils/utilities";
 import namedColors, { namedColorsRgb } from "./utils/namedColors";
 
-class ColorConvertor {
+class ColorConverter {
   private _colorInput: string | undefined;
   private _colorObj: ColorObjType;
   private _rgbObj: RgbObject;
@@ -81,7 +81,7 @@ class ColorConvertor {
   /**
    * Checks if the parsed color is valid
    * @returns {boolean} - true if the parsed color is valid
-   * @memberof ColorConvertor
+   * @memberof ColorConverter
    * @example
    * const color = new ColorConvertor('red')
    * color.isValid() // true
@@ -93,7 +93,7 @@ class ColorConvertor {
   /**
    * Returns the RGB values in the range 0-255
    * @returns {RgbObject} - RGB values object
-   * @memberof ColorConvertor
+   * @memberof ColorConverter
    * @example
    * const color = new ColorConvertor('red')
    * color.toRgb() // { r: 255, g: 0, b: 0 }
@@ -105,7 +105,7 @@ class ColorConvertor {
   /**
    * Returns the RGB values in the range 0-255 as a string
    * @returns {string} - RGB values string
-   * @memberof ColorConvertor
+   * @memberof ColorConverter
    * @example
    * const color = new ColorConvertor('red')
    * color.toRgbString() // "rgb(255, 0, 0)"
@@ -137,7 +137,7 @@ class ColorConvertor {
   /**
    * Converts the current color to  HSV
    * @returns {HsvObject} - HSV values object
-   * @memberof ColorConvertor
+   * @memberof ColorConverter
    * @example
    * const color = new ColorConvertor('red')
    * color.toHsv() // { h: 0, s: 100, v: 100 }
@@ -149,7 +149,7 @@ class ColorConvertor {
   /**
    * Converts the current color to HSV as a string
    * @returns {string} - HSV values as a string
-   * @memberof ColorConvertor
+   * @memberof ColorConverter
    * @example
    * const color = new ColorConvertor('red')
    * color.toHsvString() // "hsv(0, 100%, 100%)"
@@ -162,7 +162,7 @@ class ColorConvertor {
   /**
    * Converts the current color to HSL
    * @returns {HslObject} - HSL values object
-   * @memberof ColorConvertor
+   * @memberof ColorConverter
    * @example
    * const color = new ColorConvertor('red')
    * color.toHsl() // { h: 0, s: 100, l: 50 }
@@ -174,7 +174,7 @@ class ColorConvertor {
   /**
    * Converts the current color to HSL as a string
    * @returns {string} - HSL values as a string
-   * @memberof ColorConvertor
+   * @memberof ColorConverter
    * @example
    * const color = new ColorConvertor('red')
    * color.toHslString() // "hsl(0, 100%, 50%)"
@@ -187,7 +187,7 @@ class ColorConvertor {
   /**
    * Converts the current color to Hex
    * @returns {string} - Hex value
-   * @memberof ColorConvertor
+   * @memberof ColorConverter
    * @example
    * const color = new ColorConvertor('red')
    * color.toHex() // "ff0000"
@@ -199,7 +199,7 @@ class ColorConvertor {
   /**
    * Converts the current color to Hex as a string
    * @returns {string} - Hex value as a string
-   * @memberof ColorConvertor
+   * @memberof ColorConverter
    * @example
    * const color = new ColorConvertor('red')
    * color.toHex() // "#ff0000"
@@ -211,7 +211,7 @@ class ColorConvertor {
   /**
    * Converts the current color to Hex8
    * @returns {string} - Hex8 value
-   * @memberof ColorConvertor
+   * @memberof ColorConverter
    * @example
    * const color = new ColorConvertor('red')
    * color.toHex8() // "ff0000ff"
@@ -225,7 +225,7 @@ class ColorConvertor {
   /**
    * Converts the current color to Hex8 as a string
    * @returns {string} - Hex8 value as a string
-   * @memberof ColorConvertor
+   * @memberof ColorConverter
    * @example
    * const color = new ColorConvertor('red')
    * color.toHex8String() // "#ff0000ff"
@@ -237,7 +237,7 @@ class ColorConvertor {
   /**
    * Converts the current color to CMY
    * @returns {CmykObject} - CMYK values object
-   * @memberof ColorConvertor
+   * @memberof ColorConverter
    * @example
    * const color = new ColorConvertor('red')
    * color.toCmy() // { c: 0, m: 100, y: 100 }
@@ -248,7 +248,7 @@ class ColorConvertor {
 
   /** Converts the current color to CMYK
    * @returns {CmykObject} - CMYK values object
-   * @memberof ColorConvertor
+   * @memberof ColorConverter
    * @example
    * const color = new ColorConvertor('red')
    * color.toCmyk() // { c: 0, m: 100, y: 100, k: 0 }
@@ -267,7 +267,7 @@ class ColorConvertor {
   /**
    * Converts the current color to XYZ
    * @returns {XyzObject} - XYZ values object
-   * @memberof ColorConvertor
+   * @memberof ColorConverter
    * @example
    * const color = new ColorConvertor('red')
    * color.toXyz() // { x: 41.24, y: 21.26, z: 1.93 }
@@ -279,7 +279,7 @@ class ColorConvertor {
   /**
    * Converts the current color to XYZ as a string
    * @returns {string} - XYZ values as a string
-   * @memberof ColorConvertor
+   * @memberof ColorConverter
    * @example
    * const color = new ColorConvertor('red')
    * color.toXyzString() // "xyz(41.24, 21.26, 1.93)"
@@ -292,7 +292,7 @@ class ColorConvertor {
   /**
    * Converts the current color to LAB
    * @returns {LabObject} - LAB values object
-   * @memberof ColorConvertor
+   * @memberof ColorConverter
    * @example
    * const color = new ColorConvertor('red')
    * color.toLab() // { l: 53.24, a: 80.09, b: 67.20 }
@@ -304,7 +304,7 @@ class ColorConvertor {
   /**
    * Converts the current color to LAB as a string
    * @returns {string} - LAB values as a string
-   * @memberof ColorConvertor
+   * @memberof ColorConverter
    * @example
    * const color = new ColorConvertor('red')
    * color.toLabString() // "lab(53.24, 80.09, 67.20)"
@@ -317,7 +317,7 @@ class ColorConvertor {
   /**
    * Converts the current color to LCH
    * @returns {LchObject} - LCH values object
-   * @memberof ColorConvertor
+   * @memberof ColorConverter
    * @example
    * const color = new ColorConvertor('red')
    * color.toLch() // { l: 53.24, c: 104.55, h: 40.85 }
@@ -329,7 +329,7 @@ class ColorConvertor {
   /**
    * Converts the current color to LCH as a string
    * @returns {string} - LCH values as a string
-   * @memberof ColorConvertor
+   * @memberof ColorConverter
    * @example
    * const color = new ColorConvertor('red')
    * color.toLchString() // "lch(53.24, 104.55, 40.85)"
@@ -342,7 +342,7 @@ class ColorConvertor {
   /**
    * Returns the brightness of the current color
    * @returns {number} - Brightness value
-   * @memberof ColorConvertor
+   * @memberof ColorConverter
    * @example
    * const color = new ColorConvertor('red')
    * color.getBrightness() // 76.245
@@ -354,7 +354,7 @@ class ColorConvertor {
   /**
    * Returns the luminance of the current color
    * @returns {number} - Luminance value
-   * @memberof ColorConvertor
+   * @memberof ColorConverter
    * @example
    * const color = new ColorConvertor('red')
    * color.getLuminance() // 0.2126
@@ -366,7 +366,7 @@ class ColorConvertor {
   /**
    * Returns true if the current color is dark
    * @returns {boolean} - true if the current color is dark
-   * @memberof ColorConvertor
+   * @memberof ColorConverter
    * @example
    * const color = new ColorConvertor('red')
    * color.isDark() // true
@@ -378,7 +378,7 @@ class ColorConvertor {
   /**
    * Returns true if the current color is light
    * @returns {boolean} - true if the current color is light
-   * @memberof ColorConvertor
+   * @memberof ColorConverter
    * @example
    * const color = new ColorConvertor('red')
    * color.isLight() // false
@@ -390,7 +390,7 @@ class ColorConvertor {
   /**
    * Returns the format of the current color
    * @returns {string} - Color format
-   * @memberof ColorConvertor
+   * @memberof ColorConverter
    * @example
    * const color = new ColorConvertor('#ff0000')
    * color.getFormat() // "hex"
@@ -402,7 +402,7 @@ class ColorConvertor {
   /**
    * Returns the alpha value of the current color
    * @returns {number} - Alpha value
-   * @memberof ColorConvertor
+   * @memberof ColorConverter
    * @example
    * const color = new ColorConvertor('red')
    * color.getAlpha() // 1
@@ -417,7 +417,7 @@ class ColorConvertor {
    * Sets the alpha value of the current color
    * @param {number} newAlpha - Alpha value
    * @returns {void}
-   * @memberof ColorConvertor
+   * @memberof ColorConverter
    * @example
    * const color = new ColorConvertor('red')
    * color.setAlpha(0.5)
@@ -435,7 +435,7 @@ class ColorConvertor {
   /**
    * Returns a matching named CSS color if one exists
    * @returns {string} - color name
-   * @memberof ColorConvertor
+   * @memberof ColorConverter
    * @link https://www.w3.org/TR/css-color-4/#named-colors
    * @example
    * const color = new ColorConvertor("hsl(0, 100%, 50%)")
@@ -454,7 +454,7 @@ class ColorConvertor {
   /**
    * Returns the closest named CSS color
    * @returns {string} - color name
-   * @memberof ColorConvertor
+   * @memberof ColorConverter
    * @link https://www.w3.org/TR/css-color-4/#named-colors
    * @example
    * const color = new ColorConvertor("hsl(0, 92%, 48%)")
@@ -468,7 +468,7 @@ class ColorConvertor {
   /**
    * Returns the RGB values in the range 0-100
    * @returns {RgbObject} - RGB values object
-   * @memberof ColorConvertor
+   * @memberof ColorConverter
    * @example
    * const color = new ColorConvertor('red')
    * color.toPercentageRgb() // { r: 100, g: 0, b: 0 }
@@ -486,7 +486,7 @@ class ColorConvertor {
   /**
    * Returns the RGB values in the range 0-100% as a string
    * @returns {string} - RGB values string
-   * @memberof ColorConvertor
+   * @memberof ColorConverter
    * @example
    * const color = new ColorConvertor('red')
    * color.toPercentageRgbString() // "rgb(100%, 0%, 0%)"
@@ -500,20 +500,20 @@ class ColorConvertor {
    * Checks if the current color is equal to the color passed as an argument
    * @param color2
    * @returns {boolean} - true if the current color is equal to the color passed as an argument
-   * @memberof ColorConvertor
+   * @memberof ColorConverter
    * @example
    * const color = new ColorConvertor("red")
    * color.equals("#ff0000") // true
    * color.equals("hsl(0, 100%, 50%)") // true
    */
   equals(color2: string): boolean {
-    return this.toRgbString() === new ColorConvertor(color2).toRgbString();
+    return this.toRgbString() === new ColorConverter(color2).toRgbString();
   }
 
   /**
    * Returns a random color in sRGB color space
    * @returns {void}
-   * @memberof ColorConvertor
+   * @memberof ColorConverter
    * @remarks Will overwrite the current color
    */
   random(): void {
@@ -530,27 +530,27 @@ class ColorConvertor {
 
   /**
    * Returns a clone of the current color instance
-   * @returns {ColorConvertor} - ColorConvertor instance
-   * @memberof ColorConvertor
+   * @returns {ColorConverter} - ColorConvertor instance
+   * @memberof ColorConverter
    * @example
    * const color = new ColorConvertor("red")
    * const color2 = color.clone()
    * color2.toRgbString() // "rgb(255, 0, 0)"
    */
-  clone(): ColorConvertor {
-    return new ColorConvertor(this.getInput());
+  clone(): ColorConverter {
+    return new ColorConverter(this.getInput());
   }
 
   /**
    * Returns the contrast ratio between the current color and the color passed as an argument
    * @param color2 - The color to compare the current color to
    * @returns {number} - The contrast ratio between the current color and the color passed as an argument
-   * @memberof ColorConvertor
+   * @memberof ColorConverter
    * @link http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
    */
   readability(color2: string): number {
     const l1: number = this.getLuminance();
-    const l2: number = new ColorConvertor(color2).getLuminance();
+    const l2: number = new ColorConverter(color2).getLuminance();
     return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
   }
 
@@ -558,7 +558,7 @@ class ColorConvertor {
    * Returns whether WCAG2 guidelines say that the current color is readable on the color passed as an argument
    * @param color2 - The color to compare the current color to
    * @returns {Record<string, Record<string, boolean>>} - Object containing the results of the readability tests
-   * @memberof ColorConvertor
+   * @memberof ColorConverter
    * @link http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
    * @example
    * const color = new ColorConvertor("red")
@@ -582,4 +582,4 @@ class ColorConvertor {
   }
 }
 
-export default ColorConvertor;
+export default ColorConverter;
