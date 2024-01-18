@@ -29,6 +29,9 @@ export function toRgbBase(colorObj: ColorObjType): RgbObject {
   if (colorObj.format === "rgb" || colorObj.format === "rgba") {
     return rgbToNormalizedRgb(colorObj.value as RgbObject);
   }
+  if (colorObj.format === "name" && typeof colorObj.value === "string") {
+    return hexToNormalizedRgb(colorObj.value);
+  }
   if (colorObj.format === "hex" && typeof colorObj.value === "string") {
     return rgbToNormalizedRgb(hexToRgb(colorObj.value));
   }
@@ -55,6 +58,11 @@ export function toRgbBase(colorObj: ColorObjType): RgbObject {
     b: undefined,
     a: undefined,
   };
+}
+
+export function hexToNormalizedRgb(hexColor: string): RgbObject {
+  const rgb = hexToRgb(hexColor);
+  return rgbToNormalizedRgb(rgb);
 }
 
 export function rgbNormalizedToRgb(rgb: RgbObject): RgbObject {

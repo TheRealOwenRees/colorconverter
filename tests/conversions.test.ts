@@ -14,6 +14,7 @@ import {
   xyzToRgbNormalized,
   xyzToOklab,
   okLabToXyz,
+  hexToNormalizedRgb,
 } from "../src/utils/conversions";
 
 describe("RGB to RGB Base - normalized rgb values", () => {
@@ -159,6 +160,16 @@ describe("OKLCH", () => {
       l: expect.closeTo(70.0, 1),
       a: expect.closeTo(0.03, 1),
       b: expect.closeTo(0.09, 1),
+    });
+  });
+});
+
+describe("hex to normalized rgb", () => {
+  it("hex -> normalized rgb", () => {
+    expect(hexToNormalizedRgb("ffffff")).toMatchObject({
+      r: 1,
+      g: 1,
+      b: 1,
     });
   });
 });
