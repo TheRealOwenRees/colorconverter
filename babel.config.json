@@ -2,7 +2,8 @@
   "env": {
     "esmUnbundled": {
       "ignore": ["tests/**/*.ts", "src/types.ts"],
-      "presets": ["@babel/preset-typescript"]
+      "presets": ["@babel/preset-typescript"],
+      "plugins": ["babel-plugin-add-import-extension"]
     },
     "esmBundled":{
       "ignore": ["tests/**/*.ts", "src/types.ts"],
@@ -13,7 +14,8 @@
             "node": "20"
           }
         }]
-      ]
+      ],
+      "plugins": ["babel-plugin-add-import-extension"]
     },
     "cjs": {
       "ignore": ["tests/**/*.ts", "src/types.ts"],

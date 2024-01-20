@@ -1,5 +1,5 @@
-import { type CmykObject, type ColorObjType, type HslObject, type HsvObject, type LabObject, type LchObject, type RgbObject, type XyzObject } from "./types";
-declare class ColorConverter {
+import { type CmykObject, type ColorConverterInterface, type ColorObjType, type HslObject, type HsvObject, type LabObject, type LchObject, type RgbObject, type XyzObject } from "./types";
+declare class ColorConverter implements ColorConverterInterface {
     private _colorInput;
     private _colorObj;
     private _rgbObj;
@@ -7,9 +7,9 @@ declare class ColorConverter {
     getInput(): string;
     getColorObj(): ColorObjType;
     getRgbObj(): RgbObject;
-    setInput(colorInput: string): void;
-    setColorObj(colorObj: ColorObjType): void;
-    setRbgObj(rgbObj: RgbObject): void;
+    protected setInput(colorInput: string): void;
+    protected setColorObj(colorObj: ColorObjType): void;
+    protected setRbgObj(rgbObj: RgbObject): void;
     setColor(color: string): void;
     /**
      * Checks if the parsed color is valid
@@ -40,8 +40,6 @@ declare class ColorConverter {
     toRgbString(): string;
     toNormalizedRgb(): RgbObject;
     toNormalizedRgbString(): string;
-    fromRatio(): string;
-    fromPercentageRgb(): string;
     /**
      * Converts the current color to  HSV
      * @returns {HsvObject} - HSV values object
@@ -315,7 +313,7 @@ declare class ColorConverter {
      * const color2 = color.clone()
      * color2.toRgbString() // "rgb(255, 0, 0)"
      */
-    clone(): ColorConverter;
+    clone(): ColorConverterInterface;
     /**
      * Returns the contrast ratio between the current color and the color passed as an argument
      * @param color2 - The color to compare the current color to

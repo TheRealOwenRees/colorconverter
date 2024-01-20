@@ -28,7 +28,12 @@
     "rollup": "rollup -c",
     "test": "jest"
   },
-  "keywords": ["color", "colour", "conversion", "oklch"],
+  "keywords": [
+    "color",
+    "colour",
+    "conversion",
+    "oklch"
+  ],
   "devDependencies": {
     "@babel/cli": "^7.23.4",
     "@babel/preset-env": "^7.23.8",
@@ -41,6 +46,7 @@
     "@types/node": "^20.10.7",
     "@typescript-eslint/eslint-plugin": "^6.4.0",
     "@typescript-eslint/parser": ">=6.0.0",
+    "babel-plugin-add-import-extension": "^1.6.0",
     "babel-plugin-add-module-exports": "^1.0.4",
     "eslint": "^8.0.1",
     "eslint-config-prettier": "^9.1.0",
