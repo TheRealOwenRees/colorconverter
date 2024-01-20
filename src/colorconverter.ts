@@ -14,6 +14,7 @@ import {
   type LabObject,
   type LchObject,
   type RgbObject,
+  type WcagContrastInterface,
   type XyzObject,
 } from "./types";
 import { inputParser } from "./utils/inputParser";
@@ -234,13 +235,6 @@ class ColorConverter implements ColorConverterInterface {
   public toCmyk(): CmykObject {
     return colorConversion.cmyToCmyk(this.toCmy());
   }
-
-  /*
-    XYZ, CIE-L*ab, CIE-L*Ch(ab)
-    formulae from https://www.easyrgb.com/en/math.php
-
-    X, Y and Z output refers to a D65/2° standard illuminant.
-    */
 
   /**
    * Converts the current color to XYZ
@@ -499,11 +493,7 @@ class ColorConverter implements ColorConverterInterface {
   public random(): void {
     this.setColorObj({
       format: "rgb",
-      value: {
-        r: Math.floor(Math.random() * 256),
-        g: Math.floor(Math.random() * 256),
-        b: Math.floor(Math.random() * 256),
-      },
+      value: utilities.randomRgbColor(),
     });
     this.setRbgObj(colorConversion.toRgbBase(this.getColorObj()));
   }
@@ -531,7 +521,7 @@ class ColorConverter implements ColorConverterInterface {
   public readability(color2: string): number {
     const l1: number = this.getLuminance();
     const l2: number = new ColorConverter(color2).getLuminance();
-    return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
+    return utilities.calculateContrastRatio(l1, l2);
   }
 
   /**
@@ -545,20 +535,8 @@ class ColorConverter implements ColorConverterInterface {
    * color.isReadable("#ffffff")
    * // { AA: { large: true, normal: true, small: true }, AAA: { large: true, normal: true, small: true } }
    */
-  public isReadable(color2: string): Record<string, Record<string, boolean>> {
-    const readability = this.readability(color2);
-    return {
-      AA: {
-        large: readability >= 3,
-        normal: readability >= 4.5,
-        small: readability >= 7,
-      },
-      AAA: {
-        large: readability >= 4.5,
-        normal: readability >= 7,
-        small: readability >= 7,
-      },
-    };
+  public isReadable(color2: string): WcagContrastInterface {
+    return utilities.calculateReadability(this.readability(color2));
   }
 }
 

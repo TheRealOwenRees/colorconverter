@@ -39,7 +39,7 @@ export interface ColorConverterInterface {
   random: () => void;
   clone: () => ColorConverterInterface;
   readability: (color: string) => number;
-  isReadable: (color: string) => Record<string, Record<string, boolean>>;
+  isReadable: (color: string) => WcagContrastInterface;
 }
 
 export interface ColorConversionInterface {
@@ -81,6 +81,9 @@ export interface UtilitiesInterface {
   truncateHex: (hex: string) => string;
   expandHex: (hex: string) => string;
   labDeltaE: (lab1: LabObject, lab2: LabObject) => number;
+  randomRgbColor: () => RgbObject;
+  calculateContrastRatio: (luminance1: number, luminance2: number) => number;
+  calculateReadability: (contrastRatio: number) => WcagContrastInterface;
 }
 
 export interface ColorObjType {
@@ -133,4 +136,17 @@ export interface CmykObject {
   m: number;
   y: number;
   k?: number;
+}
+
+export interface WcagContrastInterface {
+  AA: {
+    large: boolean;
+    normal: boolean;
+    small: boolean;
+  };
+  AAA: {
+    large: boolean;
+    normal: boolean;
+    small: boolean;
+  };
 }

@@ -2,12 +2,15 @@ import {
   type LabObject,
   type RgbObject,
   type UtilitiesInterface,
+  type WcagContrastInterface,
 } from "../types";
 
+// Convert a decimal number to a two-digit hex string
 export function convertDecimalToHex(d: number): string {
   return Math.round(d * 255).toString(16);
 }
 
+// Calculate brightness according to ITU-R BT.709
 export function calculateBrightness(rgb: RgbObject): number {
   const { r, g, b } = rgb;
   if (r === undefined || g === undefined || b === undefined) {
@@ -16,6 +19,7 @@ export function calculateBrightness(rgb: RgbObject): number {
   return (r * 299 + g * 587 + b * 114) / 1000;
 }
 
+// Calculate relative luminance
 // http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
 export function calculateLuminance(rgb: RgbObject): number {
   if (rgb.r === undefined || rgb.g === undefined || rgb.b === undefined) {
@@ -32,6 +36,7 @@ export function calculateLuminance(rgb: RgbObject): number {
   return 0.2126 * R + 0.7152 * G + 0.0722 * B;
 }
 
+// Truncate hex shorthand form (e.g. "03F") to full form (e.g. "0033FF")
 export function truncateHex(hex: string): string {
   if (hex.length === 6) {
     if (hex[2] === hex[3] && hex[4] === hex[5]) {
@@ -41,6 +46,7 @@ export function truncateHex(hex: string): string {
   return hex;
 }
 
+// Expand hex shorthand form (e.g. "03F") to full form (e.g. "0033FF")
 export function expandHex(hex: string): string {
   if (hex.length === 3) {
     return hex[0] + hex[1] + hex[2] + hex[2] + hex[2] + hex[2];
@@ -48,6 +54,7 @@ export function expandHex(hex: string): string {
   return hex;
 }
 
+// https://en.wikipedia.org/wiki/Color_difference#CIEDE2000
 // √((L₀-L₁)²+(a₀-a₁)²+(b₀-b₁)²
 export function labDeltaE(lab1: LabObject, lab2: LabObject): number {
   if (
@@ -67,6 +74,43 @@ export function labDeltaE(lab1: LabObject, lab2: LabObject): number {
   );
 }
 
+// Generate a random RGB color
+function randomRgbColor(): RgbObject {
+  return {
+    r: Math.floor(Math.random() * 256),
+    g: Math.floor(Math.random() * 256),
+    b: Math.floor(Math.random() * 256),
+  };
+}
+
+// Calculate contrast ratio
+function calculateContrastRatio(
+  luminance1: number,
+  luminance2: number,
+): number {
+  return (
+    (Math.max(luminance1, luminance2) + 0.05) /
+    (Math.min(luminance1, luminance2) + 0.05)
+  );
+}
+
+// Calculate readability based on contrast ratio
+// http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
+function calculateReadability(contrastRatio: number): WcagContrastInterface {
+  return {
+    AA: {
+      large: contrastRatio >= 3,
+      normal: contrastRatio >= 4.5,
+      small: contrastRatio >= 7,
+    },
+    AAA: {
+      large: contrastRatio >= 4.5,
+      normal: contrastRatio >= 7,
+      small: contrastRatio >= 7,
+    },
+  };
+}
+
 const utilities: UtilitiesInterface = {
   convertDecimalToHex,
   calculateBrightness,
@@ -74,6 +118,9 @@ const utilities: UtilitiesInterface = {
   truncateHex,
   expandHex,
   labDeltaE,
+  randomRgbColor,
+  calculateContrastRatio,
+  calculateReadability,
 };
 
 export default utilities;
