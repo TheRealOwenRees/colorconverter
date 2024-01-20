@@ -1,4 +1,8 @@
-import { type LabObject, type RgbObject } from "../types";
+import {
+  type LabObject,
+  type RgbObject,
+  type UtilitiesInterface,
+} from "../types";
 
 export function convertDecimalToHex(d: number): string {
   return Math.round(d * 255).toString(16);
@@ -62,3 +66,14 @@ export function labDeltaE(lab1: LabObject, lab2: LabObject): number {
       Math.pow(lab1.b - lab1.b, 2),
   );
 }
+
+const utilities: UtilitiesInterface = {
+  convertDecimalToHex,
+  calculateBrightness,
+  calculateLuminance,
+  truncateHex,
+  expandHex,
+  labDeltaE,
+};
+
+export default utilities;
