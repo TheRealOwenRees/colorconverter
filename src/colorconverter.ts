@@ -17,10 +17,12 @@ import {
   type WcagContrastInterface,
   type XyzObject,
 } from "./types";
+
+import { namedColors, namedColorsRgb } from "./utils/namedColors";
 import { inputParser } from "./utils/inputParser";
 import colorConversion from "./utils/conversions";
 import utilities from "./utils/utilities";
-import { namedColors, namedColorsRgb } from "./utils/namedColors";
+import palettes from "./utils/palettes";
 
 class ColorConverter implements ColorConverterInterface {
   private _colorInput: string | undefined;
@@ -100,6 +102,14 @@ class ColorConverter implements ColorConverterInterface {
     return `${a !== undefined ? "rgba" : "rgb"}(${r}, ${g}, ${b}${a !== undefined ? `, ${a}` : ""})`;
   }
 
+  /**
+   * Returns the RGB values in the range 0-1
+   * @returns {RgbObject} - RGB values object
+   * @memberof ColorConverter
+   * @example
+   * const color = new ColorConvertor('red')
+   * color.toNormalizedRgb() // { r: 1, g: 0, b: 0 }
+   */
   public toNormalizedRgb(): RgbObject {
     return this.getRgbObj();
   }
@@ -143,7 +153,10 @@ class ColorConverter implements ColorConverterInterface {
    * color.toHsl() // { h: 0, s: 100, l: 50 }
    */
   public toHsl(): HslObject {
-    return colorConversion.rgbNormalizedToHsl(this.getRgbObj());
+    const { format, value } = this.getColorObj();
+    return format === "hsv"
+      ? (value as HslObject)
+      : colorConversion.rgbNormalizedToHsl(this.getRgbObj());
   }
 
   /**
@@ -537,6 +550,137 @@ class ColorConverter implements ColorConverterInterface {
    */
   public isReadable(color2: string): WcagContrastInterface {
     return utilities.calculateReadability(this.readability(color2));
+  }
+
+  /** Returns a complementary color based on the current color
+   * @returns {HslObject[]} - Array of HSL objects
+   * @memberof ColorConverter
+   * @example
+   * const color = new ColorConvertor("red")
+   * color.complementary()
+   * // [
+   * //   { h: 0, s: 100, l: 50 },
+   * //   { h: 180, s: 100, l: 50 },
+   * // ]
+   */
+  public complementary(): HslObject[] {
+    return palettes.analogous(2, this.toHsl());
+  }
+
+  /** Returns a complementary color based on the current color, as an array of strings
+   * @returns {string[]} - Array of HSL strings
+   * @memberof ColorConverter
+   * @example
+   * const color = new ColorConvertor("red")
+   * color.complementaryString()
+   * // [
+   * //   "hsl(0, 100%, 50%)",
+   * //   "hsl(180, 100%, 50%)",
+   * // ]
+   */
+  public complementaryString(): string[] {
+    return this.complementary().map(
+      (hsl) => `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`,
+    );
+  }
+
+  /**
+   * Returns a triad of colors based on the current color, spaced evenly around the color wheel
+   * @returns {HslObject[]} - Array of HSL objects
+   * @memberof ColorConverter
+   * @example
+   * const color = new ColorConvertor("red")
+   * color.triadic()
+   * // [
+   * //   { h: 0, s: 100, l: 50 },
+   * //   { h: 120, s: 100, l: 50 },
+   * //   { h: 240, s: 100, l: 50 },
+   * // ]
+   */
+  public triadic(): HslObject[] {
+    return palettes.analogous(3, this.toHsl());
+  }
+
+  /**
+   * Returns a triad of colors based on the current color, as an array of strings\
+   * @returns {string[]} - Array of HSL strings
+   * @memberof ColorConverter
+   * @example
+   * const color = new ColorConvertor("red")
+   * color.triadicString()
+   * // [
+   * //   "hsl(0, 100%, 50%)",
+   * //   "hsl(120, 100%, 50%)",
+   * //   "hsl(240, 100%, 50%)",
+   * // ]
+   */
+  public triadicString(): string[] {
+    return this.triadic().map((hsl) => `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`);
+  }
+
+  /**
+   * Returns a tetrad of colors based on the current color, spaced evenly around the color wheel
+   * @returns {HslObject[]} - Array of HSL objects
+   * @memberof ColorConverter
+   * @example
+   * const color = new ColorConvertor("red")
+   * color.tetradic()
+   * // [
+   * //   { h: 0, s: 100, l: 50 },
+   * //   { h: 90, s: 100, l: 50 },
+   * //   { h: 180, s: 100, l: 50 },
+   * //   { h: 270, s: 100, l: 50 },
+   * // ]
+   */
+  public tetradic(): HslObject[] {
+    return palettes.analogous(4, this.toHsl());
+  }
+
+  /**
+   * Returns a tetrad of colors based on the current color, as an array of strings
+   * @returns {string[]} - Array of HSL strings
+   * @memberof ColorConverter
+   * @example
+   * const color = new ColorConvertor("red")
+   * color.tetradicString()
+   * // [
+   * //   "hsl(0, 100%, 50%)",
+   * //   "hsl(90, 100%, 50%)",
+   * //   "hsl(180, 100%, 50%)",
+   * //   "hsl(270, 100%, 50%)",
+   * // ]
+   */
+  public tetradicString(): string[] {
+    return this.tetradic().map((hsl) => `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`);
+  }
+
+  public analogous(numOfColors: number): HslObject[] {
+    return palettes.analogous(numOfColors, this.toHsl());
+  }
+
+  public analogousString(numOfColors: number): string[] {
+    return this.analogous(numOfColors).map(
+      (hsl) => `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`,
+    );
+  }
+
+  // If no deltaS or deltaL is passed, the difference between each color will be 100 / numOfColors
+  public monochromatic(
+    numOfColors = 3,
+    deltaS: number | undefined = undefined,
+    deltaL: number | undefined = undefined,
+  ): HslObject[] {
+    return palettes.monochromatic(numOfColors, deltaS, deltaL, this.toHsl());
+  }
+
+  public monochromaticString(
+    numOfColors = 3,
+    deltaS = 33.33,
+    deltaL = 33.33,
+  ): string[] {
+    return this.monochromatic(numOfColors, deltaS, deltaL).map(
+      (hsl) => `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`,
+    );
   }
 }
 

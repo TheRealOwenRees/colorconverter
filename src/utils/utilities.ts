@@ -111,6 +111,11 @@ function calculateReadability(contrastRatio: number): WcagContrastInterface {
   };
 }
 
+// Clamp a value between a minimum and maximum value
+export function clamp(min: number, max: number, value: number): number {
+  return Math.min(Math.max(value, min), max);
+}
+
 const utilities: UtilitiesInterface = {
   convertDecimalToHex,
   calculateBrightness,
@@ -121,6 +126,7 @@ const utilities: UtilitiesInterface = {
   randomRgbColor,
   calculateContrastRatio,
   calculateReadability,
+  clamp,
 };
 
 export default utilities;

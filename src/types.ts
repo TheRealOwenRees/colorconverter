@@ -40,6 +40,8 @@ export interface ColorConverterInterface {
   clone: () => ColorConverterInterface;
   readability: (color: string) => number;
   isReadable: (color: string) => WcagContrastInterface;
+  triadic: () => HslObject[];
+  triadicString: () => string[];
 }
 
 export interface ColorConversionInterface {
@@ -84,6 +86,17 @@ export interface UtilitiesInterface {
   randomRgbColor: () => RgbObject;
   calculateContrastRatio: (luminance1: number, luminance2: number) => number;
   calculateReadability: (contrastRatio: number) => WcagContrastInterface;
+  clamp: (min: number, max: number, value: number) => number;
+}
+
+export interface PalettesInterface {
+  analogous: (numOfColors: number, baseHsl: HslObject) => HslObject[];
+  monochromatic: (
+    numOfColors: number,
+    deltaS: number | undefined,
+    deltaL: number | undefined,
+    baseHsl: HslObject,
+  ) => HslObject[];
 }
 
 export interface ColorObjType {

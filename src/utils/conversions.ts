@@ -350,8 +350,6 @@ export function cmyToCmyk(cmy: CmykObject): CmykObject {
   { x: 100, y: 100, z: 100 } for E
 */
 
-// TODO deprecate XYZ, use modern conversions of lRGB instead
-
 export function xyzToLab(xyz: XyzObject): LabObject {
   let { x, y, z } = xyz;
 
@@ -501,7 +499,6 @@ export function xyzToOklab(xyz: XyzObject): LabObject {
   };
 }
 
-// TODO giving largely inflated numbers
 export function okLabToXyz(oklab: LabObject): XyzObject {
   if (oklab.l === undefined || oklab.a === undefined || oklab.b === undefined) {
     throw new Error("OKLAB values must be defined");
