@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.2.0
+
+Color palette generation:
+- monochromatic
+- complementary - split, triadic, tetradic
+
 ## v0.0.2
 
 Added this changelog.

@@ -654,17 +654,66 @@ class ColorConverter implements ColorConverterInterface {
     return this.tetradic().map((hsl) => `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`);
   }
 
-  public analogous(numOfColors: number): HslObject[] {
+  /**
+   * Returns a split-complementary color based on the current color
+   * @param numOfColors - number of colors to return
+   * @returns {HslObject[]} - Array of HSL objects
+   * @memberof ColorConverter
+   * @example
+   * const color = new ColorConvertor("red")
+   * color.splitComplementary(5)
+   * // [
+   * //   { h: 0, s: 100, l: 50 },
+   * //   { h: 150, s: 100, l: 50 },
+   * //   { h: 210, s: 100, l: 50 },
+   * //   { h: 270, s: 100, l: 50 },
+   * //   { h: 330, s: 100, l: 50 },
+   * // ]
+   */
+  public splitComplementary(numOfColors = 5): HslObject[] {
     return palettes.analogous(numOfColors, this.toHsl());
   }
 
-  public analogousString(numOfColors: number): string[] {
-    return this.analogous(numOfColors).map(
+  /**
+   * Returns a split-complementary color based on the current color, as an array of strings
+   * @param numOfColors - number of colors to return
+   * @returns {string[]} - Array of HSL strings
+   * @memberof ColorConverter
+   * @example
+   * const color = new ColorConvertor("red")
+   * color.splitComplementaryString(5)
+   * // [
+   * //   "hsl(0, 100%, 50%)",
+   * //   "hsl(150, 100%, 50%)",
+   * //   "hsl(210, 100%, 50%)",
+   * //   "hsl(270, 100%, 50%)",
+   * //   "hsl(330, 100%, 50%)",
+   * // ]
+   */
+  public splitComplementaryString(numOfColors = 5): string[] {
+    return this.splitComplementary(numOfColors).map(
       (hsl) => `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`,
     );
   }
 
-  // If no deltaS or deltaL is passed, the difference between each color will be 100 / numOfColors
+  /**
+   * Creates a monochromatic palette based on the current color
+   * @param numOfColors - number of colors to return
+   * @param deltaS - difference in saturation between each color
+   * @param deltaL - difference in lightness between each color
+   * @returns {HslObject[]} - Array of HSL objects
+   * @memberof ColorConverter
+   * @example
+   * const color = new ColorConvertor("red")
+   * color.monochromatic(5, 10, 10)
+   * // [
+   * //   { h: 0, s: 80, l: 30 },
+   * //   { h: 0, s: 90, l: 40 },
+   * //   { h: 0, s: 100, l: 50 },
+   * //   { h: 0, s: 100, l: 60 },
+   * //   { h: 0, s: 100, l: 70 },
+   * // ]
+   */
   public monochromatic(
     numOfColors = 3,
     deltaS: number | undefined = undefined,
@@ -673,6 +722,24 @@ class ColorConverter implements ColorConverterInterface {
     return palettes.monochromatic(numOfColors, deltaS, deltaL, this.toHsl());
   }
 
+  /**
+   * Creates a monochromatic palette based on the current color, as an array of strings
+   * @param numOfColors - number of colors to return
+   * @param deltaS - difference in saturation between each color
+   * @param deltaL - difference in lightness between each color
+   * @returns {string[]} - Array of HSL strings
+   * @memberof ColorConverter
+   * @example
+   * const color = new ColorConvertor("red")
+   * color.monochromaticString(5, 10, 10)
+   * // [
+   * //   "hsl(0, 80%, 30%)",
+   * //   "hsl(0, 90%, 40%)",
+   * //   "hsl(0, 100%, 50%)",
+   * //   "hsl(0, 100%, 60%)",
+   * //   "hsl(0, 100%, 70%)",
+   * // ]
+   */
   public monochromaticString(
     numOfColors = 3,
     deltaS = 33.33,

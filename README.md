@@ -380,5 +380,146 @@ color.isReadable('white');
 // }
 ```
 
+### complementary
+Returns a complementary color based on the current color.
+
+```js
+const color = new ColorConverter('red');
+color.complementary()
+// [
+//   { h: 0, s: 100, l: 50 },
+//   { h: 180, s: 100, l: 50 },
+// ]
+```
+
+### complementaryString
+Returns a string representation of the complementary color based on the current color.
+
+```js
+const color = new ColorConverter('red');
+color.complementaryString();
+// [
+//   'hsl(0, 100%, 50%)',
+//   'hsl(180, 100%, 50%)',
+// ]
+```
+
+### triadic
+Returns a triad of colors based on the current color.
+
+```js
+const color = new ColorConverter('red');
+color.triadic()
+// [
+//   { h: 0, s: 100, l: 50 },
+//   { h: 120, s: 100, l: 50 },
+//   { h: 240, s: 100, l: 50 },
+// ]
+```
+
+### triadicString
+Returns a string representation of the triad of colors based on the current color.
+
+```js
+const color = new ColorConverter('red');
+color.triadicString();
+// [
+//   'hsl(0, 100%, 50%)',
+//   'hsl(120, 100%, 50%)',
+//   'hsl(240, 100%, 50%)',
+// ]
+```
+
+### tetradic
+Returns a tetrad of colors based on the current color.
+
+```js
+const color = new ColorConverter('red');
+color.tetradic()
+// [
+//   { h: 0, s: 100, l: 50 },
+//   { h: 90, s: 100, l: 50 },
+//   { h: 180, s: 100, l: 50 },
+//   { h: 270, s: 100, l: 50 },
+// ]
+```
+
+### tetradicString
+Returns a string representation of the tetrad of colors based on the current color.
+
+```js
+const color = new ColorConverter('red');
+color.tetradicString();
+// [
+//   'hsl(0, 100%, 50%)',
+//   'hsl(90, 100%, 50%)',
+//   'hsl(180, 100%, 50%)',
+//   'hsl(270, 100%, 50%)',
+// ]
+```
+
+### splitComplementary
+Returns a split complementary color based on the current color.
+
+```js
+const color = new ColorConverter("rgb(147, 64, 191)");
+color.splitComplementary(7) // default parameter is 5
+// [
+//   { h: 279, s: 50, l: 50 },
+//   { h: 330, s: 50, l: 50 },
+//   { h: 22, s: 50, l: 50 },
+//   { h: 73, s: 50, l: 50 },
+//   { h: 125, s: 50, l: 50 },
+//   { h: 176, s: 50, l: 50 },
+//   { h: 228, s: 50, l: 50 },
+// ]
+```
+
+### splitComplementaryString
+Returns a string representation of the split complementary color based on the current color.
+
+```js
+const color = new ColorConverter("rgb(147, 64, 191)");
+color.splitComplementaryString(7) // default parameter is 5
+// [
+//   'hsl(279, 50%, 50%)',
+//   'hsl(330, 50%, 50%)',
+//   'hsl(22, 50%, 50%)',
+//   'hsl(73, 50%, 50%)',
+//   'hsl(125, 50%, 50%)',
+//   'hsl(176, 50%, 50%)',
+//   'hsl(228, 50%, 50%)',
+// ]
+```
+
+### monochromatic
+Returns a monochromatic palette color based on the current color.
+
+```js
+const color = new ColorConverter("rgb(214, 92, 92)");
+color.monochromatic(5, 10, 10) // (count, lightnessStep, saturationStep), defaults are (3, 100/count, 100/count)
+// [
+//   { h: 0, s: 20, l: 20 },
+//   { h: 0, s: 40, l: 40 },
+//   { h: 0, s: 60, l: 60 },
+//   { h: 0, s: 80, l: 80 },
+//   { h: 0, s: 100, l: 100 },
+```
+
+### monochromaticString
+Returns a string representation of the monochromatic palette color based on the current color.
+
+```js
+const color = new ColorConverter("rgb(214, 92, 92)");
+color.monochromaticString(5, 10, 10) // (count, lightnessStep, saturationStep), defaults are (3, 100/count, 100/count)
+// [
+//   'hsl(0, 20%, 20%)',
+//   'hsl(0, 40%, 40%)',
+//   'hsl(0, 60%, 60%)',
+//   'hsl(0, 80%, 80%)',
+//   'hsl(0, 100%, 100%)',
+// ]
+```
+
 ## Acknowledgements
 [TinyColor](https://github.com/bgrins/TinyColor) for inspiring this library.

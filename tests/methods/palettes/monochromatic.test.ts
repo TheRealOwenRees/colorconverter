@@ -1,5 +1,4 @@
 import ColorConverter from "../../../src/colorconverter";
-import exp from "node:constants";
 
 describe("monochromatic", () => {
   it("monochromatic, default params", () => {

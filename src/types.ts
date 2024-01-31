@@ -40,8 +40,24 @@ export interface ColorConverterInterface {
   clone: () => ColorConverterInterface;
   readability: (color: string) => number;
   isReadable: (color: string) => WcagContrastInterface;
+  complementary: () => HslObject[];
+  complementaryString: () => string[];
   triadic: () => HslObject[];
   triadicString: () => string[];
+  tetradic: () => HslObject[];
+  tetradicString: () => string[];
+  splitComplementary: (numOfColors?: number) => HslObject[];
+  splitComplementaryString: (numOfColors?: number) => string[];
+  monochromatic: (
+    numOfColors?: number,
+    deltaS?: number,
+    deltaL?: number,
+  ) => HslObject[];
+  monochromaticString: (
+    numOfColors?: number,
+    deltaS?: number,
+    deltaL?: number,
+  ) => string[];
 }
 
 export interface ColorConversionInterface {
