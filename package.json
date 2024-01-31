@@ -1,6 +1,6 @@
 {
   "name": "@owenrees/colorconverter",
-  "version": "0.0.1",
+  "version": "0.2.0",
   "description": "A zero dependency, lightweight color manipulation library.",
   "author": "Owen Rees <owenrees@tutanota.com>",
   "license": "MIT",

@@ -39,7 +39,25 @@ export interface ColorConverterInterface {
   random: () => void;
   clone: () => ColorConverterInterface;
   readability: (color: string) => number;
-  isReadable: (color: string) => Record<string, Record<string, boolean>>;
+  isReadable: (color: string) => WcagContrastInterface;
+  complementary: () => HslObject[];
+  complementaryString: () => string[];
+  triadic: () => HslObject[];
+  triadicString: () => string[];
+  tetradic: () => HslObject[];
+  tetradicString: () => string[];
+  splitComplementary: (numOfColors?: number) => HslObject[];
+  splitComplementaryString: (numOfColors?: number) => string[];
+  monochromatic: (
+    numOfColors?: number,
+    deltaS?: number,
+    deltaL?: number,
+  ) => HslObject[];
+  monochromaticString: (
+    numOfColors?: number,
+    deltaS?: number,
+    deltaL?: number,
+  ) => string[];
 }
 
 export interface ColorConversionInterface {
@@ -81,6 +99,20 @@ export interface UtilitiesInterface {
   truncateHex: (hex: string) => string;
   expandHex: (hex: string) => string;
   labDeltaE: (lab1: LabObject, lab2: LabObject) => number;
+  randomRgbColor: () => RgbObject;
+  calculateContrastRatio: (luminance1: number, luminance2: number) => number;
+  calculateReadability: (contrastRatio: number) => WcagContrastInterface;
+  clamp: (min: number, max: number, value: number) => number;
+}
+
+export interface PalettesInterface {
+  analogous: (numOfColors: number, baseHsl: HslObject) => HslObject[];
+  monochromatic: (
+    numOfColors: number,
+    deltaS: number | undefined,
+    deltaL: number | undefined,
+    baseHsl: HslObject,
+  ) => HslObject[];
 }
 
 export interface ColorObjType {
@@ -133,4 +165,17 @@ export interface CmykObject {
   m: number;
   y: number;
   k?: number;
+}
+
+export interface WcagContrastInterface {
+  AA: {
+    large: boolean;
+    normal: boolean;
+    small: boolean;
+  };
+  AAA: {
+    large: boolean;
+    normal: boolean;
+    small: boolean;
+  };
 }

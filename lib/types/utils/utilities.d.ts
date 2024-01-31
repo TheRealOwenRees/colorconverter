@@ -5,5 +5,6 @@ export declare function calculateLuminance(rgb: RgbObject): number;
 export declare function truncateHex(hex: string): string;
 export declare function expandHex(hex: string): string;
 export declare function labDeltaE(lab1: LabObject, lab2: LabObject): number;
+export declare function clamp(min: number, max: number, value: number): number;
 declare const utilities: UtilitiesInterface;
 export default utilities;
